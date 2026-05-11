@@ -11,6 +11,7 @@ const Square = ({
   winValues?: number[];
   backgroundColor?: string;
   index: number;
+  
 }) => {
   const backgroundColor = winValues?.includes(index) ? "red" : "transparent";
   return (

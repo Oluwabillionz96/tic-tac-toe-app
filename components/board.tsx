@@ -25,7 +25,8 @@ const Board = ({
     >
       {board.map((item, index) => (
         <Square
-          value={item}
+              value={item}
+              
           handlePress={() => {
             if (!board[index]) {
               const newBoard = [...board];
