@@ -8,12 +8,14 @@ const Board = ({
   isXNext,
   setBoard,
   setIsXNext,
+  isPlayerX,
 }: {
   winValues?: number[];
   board: ("X" | "O" | null)[];
   isXNext: boolean;
   setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>;
   setIsXNext: Dispatch<SetStateAction<boolean>>;
+  isPlayerX: boolean | "random";
 }) => {
   const gameOver = winValues !== undefined || board.every((value) => value);
 
@@ -31,7 +33,7 @@ const Board = ({
           handlePress={() => {
             if (!gameOver && !board[index]) {
               const newBoard = [...board];
-              if (isXNext) {
+              if (isXNext && isPlayerX) {
                 newBoard[index] = "X";
               } else {
                 newBoard[index] = "O";

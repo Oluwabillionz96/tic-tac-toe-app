@@ -27,16 +27,17 @@ export const otherPlayerAlgorithm = (
   setTurn: Dispatch<SetStateAction<boolean>>,
   board: ("X" | "O" | null)[],
   setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>,
+  isPlayerX: boolean | "random",
 ) => {
-  if (isPlayerTurn) return;
+  if (isPlayerX && isPlayerTurn) return;
 
   const nextMoveIndex = getRandomNumber(board);
   if (nextMoveIndex === -1) return; // No valid moves left
 
   const newBoard = [...board];
-  newBoard[nextMoveIndex] = "O";
+  newBoard[nextMoveIndex] = isPlayerX === true ? "O" : "X";
   setBoard(newBoard);
-  setTurn(true);
+  setTurn(!isPlayerX as boolean);
 };
 
 export const checkWin = (board: ("X" | "O" | null)[]) => {
