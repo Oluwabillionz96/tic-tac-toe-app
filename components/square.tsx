@@ -1,17 +1,17 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
 const Square = ({
   index,
   value,
   handlePress,
   winValues,
+  gameOver,
 }: {
   value: "X" | "O" | null;
   handlePress: () => void;
   winValues?: number[];
-  backgroundColor?: string;
   index: number;
-  
+  gameOver?: boolean;
 }) => {
   const backgroundColor = winValues?.includes(index) ? "red" : "transparent";
   return (
@@ -27,7 +27,7 @@ const Square = ({
         backgroundColor,
       }}
       onPress={handlePress}
-      disabled={typeof winValues !== "undefined"}
+      disabled={gameOver || winValues !== undefined}
     >
       <Text style={{ fontSize: 24 }}>{value}</Text>
     </TouchableOpacity>
@@ -35,5 +35,3 @@ const Square = ({
 };
 
 export default Square;
-
-const styles = StyleSheet.create({});

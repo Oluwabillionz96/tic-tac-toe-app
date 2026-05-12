@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 
-export const wins = [
+const wins = [
   [0, 1, 2],
   [0, 3, 6],
   [0, 4, 8],
@@ -12,27 +12,39 @@ export const wins = [
 ];
 
 function getRandomNumber(board: ("X" | "O" | null)[]) {
-  const emptyIndex = board
-    .map((item, index) => (item === null ? index : item))
-    .filter((item) => typeof item === "number");
+  const emptyIndices = board
+    .map((item, index) => (item === null ? index : -1))
+    .filter((index) => index !== -1);
 
-  const randomNumber = Math.floor(Math.random() * emptyIndex.length);
-  return emptyIndex[randomNumber];
+  if (emptyIndices.length === 0) return -1;
+
+  const randomIndex = Math.floor(Math.random() * emptyIndices.length);
+  return emptyIndices[randomIndex];
 }
 
 export const otherPlayerAlgorithm = (
-  gameOver: boolean,
   isPlayerTurn: boolean,
   setTurn: Dispatch<SetStateAction<boolean>>,
   board: ("X" | "O" | null)[],
   setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>,
 ) => {
-  if (gameOver || isPlayerTurn) return;
+  if (isPlayerTurn) return;
 
   const nextMoveIndex = getRandomNumber(board);
-  const newBoard = [...board];
+  if (nextMoveIndex === -1) return; // No valid moves left
 
+  const newBoard = [...board];
   newBoard[nextMoveIndex] = "O";
   setBoard(newBoard);
   setTurn(true);
+};
+
+export const checkWin = (board: ("X" | "O" | null)[]) => {
+  for (const win of wins) {
+    const [a, b, c] = win;
+    if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+      return win; // Return winning indices
+    }
+  }
+  return undefined;
 };

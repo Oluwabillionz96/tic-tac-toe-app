@@ -15,6 +15,8 @@ const Board = ({
   setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>;
   setIsXNext: Dispatch<SetStateAction<boolean>>;
 }) => {
+  const gameOver = winValues !== undefined || board.every((value) => value);
+
   return (
     <View
       style={{
@@ -25,10 +27,9 @@ const Board = ({
     >
       {board.map((item, index) => (
         <Square
-              value={item}
-              
+          value={item}
           handlePress={() => {
-            if (!board[index]) {
+            if (!gameOver && !board[index]) {
               const newBoard = [...board];
               if (isXNext) {
                 newBoard[index] = "X";
@@ -37,12 +38,13 @@ const Board = ({
               }
               setBoard(newBoard);
               setIsXNext(!isXNext);
-            } else {
-              alert("Value");
+            } else if (board[index]) {
+              alert("Square already taken!");
             }
           }}
           index={index}
           winValues={winValues}
+          gameOver={gameOver}
           key={index}
         />
       ))}
