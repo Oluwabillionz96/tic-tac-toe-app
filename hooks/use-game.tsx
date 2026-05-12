@@ -4,7 +4,8 @@ import { useEffect, useState } from "react";
 const useGame = () => {
   const [board, setBoard] = useState<("X" | "O" | null)[]>(Array(9).fill(null));
   const [isPlayerX, setIsPlayerX] = useState<boolean | "random">("random");
-  const [isXNext, setIsXNext] = useState(isPlayerX === true);
+  const [isPlayersTurn, setIsPlayersTurn] = useState(isPlayerX === true);
+
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
   const draw = board.every((value) => value);
   const [isModalVisible, setIsModalVisible] = useState(true);
@@ -13,9 +14,15 @@ const useGame = () => {
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-    if (!isXNext && !gameOver && !isModalVisible) {
+    if (!isPlayersTurn && !gameOver && !isModalVisible) {
       timeoutId = setTimeout(() => {
-        otherPlayerAlgorithm(isXNext, setIsXNext, board, setBoard, isPlayerX);
+        otherPlayerAlgorithm(
+          isPlayersTurn,
+          setIsPlayersTurn,
+          board,
+          setBoard,
+          isPlayerX,
+        );
       }, 1000);
     }
 
@@ -24,14 +31,26 @@ const useGame = () => {
         clearTimeout(timeoutId);
       }
     };
-  }, [isXNext, board, gameOver, isPlayerX, isModalVisible]);
+  }, [isPlayersTurn, board, gameOver, isPlayerX, isModalVisible]);
 
   useEffect(() => {
     setWinValues(checkWin(board));
   }, [board]);
+
+  // Update isPlayersTurn when isPlayerX changes from "random" to boolean
+  useEffect(() => {
+    if (isPlayerX !== "random") {
+      setIsPlayersTurn(isPlayerX);
+    }
+  }, [isPlayerX]);
   return {
-    state: { board, isXNext, winValues, isPlayerX, isModalVisible },
-    stateSetter: { setBoard, setIsXNext, setIsPlayerX, setIsModalVisible },
+    state: { board, isPlayersTurn, winValues, isPlayerX, isModalVisible },
+    stateSetter: {
+      setBoard,
+      setIsPlayersTurn,
+      setIsPlayerX,
+      setIsModalVisible,
+    },
     draw,
   };
 };

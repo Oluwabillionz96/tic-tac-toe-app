@@ -5,16 +5,16 @@ import { Dispatch, SetStateAction } from "react";
 const Board = ({
   winValues,
   board,
-  isXNext,
+  isPlayersTurn,
   setBoard,
-  setIsXNext,
+  setIsPlayersTurn,
   isPlayerX,
 }: {
   winValues?: number[];
   board: ("X" | "O" | null)[];
-  isXNext: boolean;
+  isPlayersTurn: boolean;
   setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>;
-  setIsXNext: Dispatch<SetStateAction<boolean>>;
+  setIsPlayersTurn: Dispatch<SetStateAction<boolean>>;
   isPlayerX: boolean | "random";
 }) => {
   const gameOver = winValues !== undefined || board.every((value) => value);
@@ -33,13 +33,12 @@ const Board = ({
           handlePress={() => {
             if (!gameOver && !board[index]) {
               const newBoard = [...board];
-              if (isXNext && isPlayerX) {
-                newBoard[index] = "X";
-              } else {
-                newBoard[index] = "O";
+              if (isPlayersTurn) {
+                newBoard[index] = isPlayerX === true ? "X" : "O";
               }
+
               setBoard(newBoard);
-              setIsXNext(!isXNext);
+              setIsPlayersTurn(!isPlayersTurn);
             } else if (board[index]) {
               alert("Square already taken!");
             }

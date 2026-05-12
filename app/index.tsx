@@ -6,8 +6,13 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const {
-    state: { board, isXNext, winValues, isPlayerX, isModalVisible },
-    stateSetter: { setBoard, setIsXNext, setIsPlayerX, setIsModalVisible },
+    state: { board, isPlayersTurn, winValues, isPlayerX, isModalVisible },
+    stateSetter: {
+      setBoard,
+      setIsPlayersTurn,
+      setIsPlayerX,
+      setIsModalVisible,
+    },
     draw,
   } = useGame();
 
@@ -22,13 +27,13 @@ export default function Index() {
           ? `Game Over: ${board[winValues[0]]} Wins`
           : draw
             ? "Game Over: Draw"
-            : isXNext
+            : isPlayersTurn
               ? "Your Turn"
               : "Computer's turn"}
       </Text>
       <Board
-        isXNext={isXNext}
-        setIsXNext={setIsXNext}
+        isPlayersTurn={isPlayersTurn}
+        setIsPlayersTurn={setIsPlayersTurn}
         setBoard={setBoard}
         board={board}
         winValues={winValues}
@@ -56,11 +61,16 @@ export default function Index() {
       <PlayerChoiceModal
         isVisible={isModalVisible}
         handleContinue={() => {
-          if (isPlayerX === "random") {
-            setIsPlayerX(Math.floor(Math.random() * 2) === 1);
-          }
+          setIsPlayerX((value) => {
+            if (value === "random") {
+              return Math.floor(Math.random() * 2) === 1;
+            } else {
+              return value;
+            }
+          });
 
           setIsModalVisible(false);
+          console.log({ isPlayerX });
         }}
       >
         <ChoiceList setIsPlayerX={setIsPlayerX} isPlayerX={isPlayerX} />

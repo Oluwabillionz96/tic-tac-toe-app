@@ -29,7 +29,7 @@ export const otherPlayerAlgorithm = (
   setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>,
   isPlayerX: boolean | "random",
 ) => {
-  if (isPlayerX && isPlayerTurn) return;
+  if (isPlayerTurn) return;
 
   const nextMoveIndex = getRandomNumber(board);
   if (nextMoveIndex === -1) return; // No valid moves left
@@ -37,7 +37,7 @@ export const otherPlayerAlgorithm = (
   const newBoard = [...board];
   newBoard[nextMoveIndex] = isPlayerX === true ? "O" : "X";
   setBoard(newBoard);
-  setTurn(!isPlayerX as boolean);
+  setTurn(true);
 };
 
 export const checkWin = (board: ("X" | "O" | null)[]) => {
