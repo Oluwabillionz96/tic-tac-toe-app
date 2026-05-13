@@ -7,7 +7,7 @@ const useGame = () => {
   const [isPlayersTurn, setIsPlayersTurn] = useState(isPlayerX === true);
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
   const draw = board.every((value) => value);
-  const [isModalVisible, setIsModalVisible] = useState(true);
+  const [isgameOn, setIsgameOn] = useState(false);
   const gameOver = winValues !== undefined || draw;
 
   async function getPlayerChoice() {
@@ -32,7 +32,7 @@ const useGame = () => {
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-    if (!isPlayersTurn && !gameOver && !isModalVisible) {
+    if (!isPlayersTurn && !gameOver && isgameOn) {
       timeoutId = setTimeout(() => {
         otherPlayerAlgorithm(
           isPlayersTurn,
@@ -49,7 +49,7 @@ const useGame = () => {
         clearTimeout(timeoutId);
       }
     };
-  }, [isPlayersTurn, board, gameOver, isPlayerX, isModalVisible]);
+  }, [isPlayersTurn, board, gameOver, isPlayerX, isgameOn]);
 
   useEffect(() => {
     setWinValues(checkWin(board));
@@ -64,12 +64,12 @@ const useGame = () => {
     }
   }, [isPlayerX]);
   return {
-    state: { board, isPlayersTurn, winValues, isPlayerX, isModalVisible },
+    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn},
     stateSetter: {
       setBoard,
       setIsPlayersTurn,
       setIsPlayerX,
-      setIsModalVisible,
+      setIsgameOn,
     },
     draw,
     getPlayerChoice,

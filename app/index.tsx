@@ -7,12 +7,12 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const {
-    state: { board, isPlayersTurn, winValues, isPlayerX, isModalVisible },
+    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn },
     stateSetter: {
       setBoard,
       setIsPlayersTurn,
       setIsPlayerX,
-      setIsModalVisible,
+      setIsgameOn,
     },
     draw,
     getPlayerChoice,
@@ -53,7 +53,7 @@ export default function Index() {
           <TouchableOpacity
             onPress={() => {
               setBoard(Array(9).fill(null));
-              setIsModalVisible(true);
+              setIsgameOn(false);
               getPlayerChoice();
             }}
             style={{
@@ -69,7 +69,7 @@ export default function Index() {
         </View>
       )}
       <PlayerChoiceModal
-        isVisible={isModalVisible}
+        isVisible={!isgameOn}
         handleContinue={() => {
           setIsPlayerX((value) => {
             if (value === "random") {
@@ -80,7 +80,7 @@ export default function Index() {
               return value;
             }
           });
-          setIsModalVisible(false);
+          setIsgameOn(true);
         }}
       >
         <ChoiceList setIsPlayerX={setIsPlayerX} isPlayerX={isPlayerX} />
