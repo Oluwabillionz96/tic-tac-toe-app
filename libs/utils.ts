@@ -99,4 +99,28 @@ export async function getScores(setScore: Dispatch<SetStateAction<Scores>>) {
   return;
 }
 
+export async function updateScores(
+  scores: Scores,
+  setScores: Dispatch<SetStateAction<Scores>>,
+  board: ("X" | "O" | null)[],
+  isPlayerX: boolean | "random",
+  winValues?: number[],
+) {
+  if (winValues === undefined && !board.every((square) => square)) return;
 
+  const newScore = { ...scores };
+
+  if (winValues !== undefined) {
+    const winValue = board[winValues[0]];
+    const playerValue = isPlayerX ? "X" : "O";
+
+    const field: "player" | "computer" =
+      `${winValue === playerValue ? "player" : "computer"}`;
+    newScore[field] = scores[field] + 1;
+  }else if (board.every((square) => square) && !winValues) {
+    newScore.draw = scores.draw + 1;
+  }
+
+  setScores(newScore);
+  saveLocalData("scores", JSON.stringify(newScore));
+}

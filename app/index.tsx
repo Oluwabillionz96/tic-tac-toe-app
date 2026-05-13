@@ -8,7 +8,13 @@ import { Text, TouchableOpacity, View } from "react-native";
 export default function Index() {
   const {
     state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn, scores },
-    stateSetter: { setBoard, setIsPlayersTurn, setIsPlayerX, setIsgameOn },
+    stateSetter: {
+      setBoard,
+      setIsPlayersTurn,
+      setIsPlayerX,
+      setIsgameOn,
+      setWinValues,
+    },
     draw,
   } = useGame();
 
@@ -50,6 +56,7 @@ export default function Index() {
               setBoard(Array(9).fill(null));
               setIsgameOn(false);
               getPlayerChoice(setIsPlayerX);
+              setWinValues(undefined);
             }}
             style={{
               borderWidth: 1,

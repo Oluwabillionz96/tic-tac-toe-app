@@ -4,7 +4,7 @@ import {
   getPlayerChoice,
   getScores,
   otherPlayerAlgorithm,
-  saveLocalData,
+  updateScores,
 } from "@/libs/utils";
 import { useEffect, useState } from "react";
 
@@ -56,25 +56,9 @@ const useGame = () => {
   }, [board]);
 
   useEffect(() => {
-    if (!winValues && !draw) return;
-
-    const newScore = { ...scores };
-
-    if (winValues !== undefined) {
-      const winValue = board[winValues[0]];
-      const playerValue = isPlayerX ? "X" : "O";
-
-      const field: keyof Scores = `${winValue === playerValue ? "player" : "computer"}`;
-      newScore[field] = scores[field] + 1;
-    }
-
-    if (draw) {
-      newScore.draw = scores.draw + 1;
-    }
-
-    setScores(newScore);
-    saveLocalData("scores", JSON.stringify(newScore));
-  }, [winValues, draw]);
+    if (!winValues && !board.every((square) => square)) return;
+    updateScores(scores, setScores, board, isPlayerX, winValues);
+  }, [winValues, board]);
 
   // Update isPlayersTurn when isPlayerX changes from "random" to boolean
   useEffect(() => {
@@ -91,6 +75,7 @@ const useGame = () => {
       setIsPlayerX,
       setIsgameOn,
       setScores,
+      setWinValues,
     },
     draw,
     getPlayerChoice,
