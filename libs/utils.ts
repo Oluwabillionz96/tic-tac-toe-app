@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const wins = [
   [0, 1, 2],
@@ -49,3 +50,44 @@ export const checkWin = (board: ("X" | "O" | null)[]) => {
   }
   return undefined;
 };
+
+export async function saveLocalData(key: string, value: string) {
+  await AsyncStorage.setItem(key, value);
+}
+
+export async function getLocalData(key: string): Promise<string | null> {
+  return await AsyncStorage.getItem(key);
+}
+
+export async function getPlayerChoice(
+  setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>,
+) {
+  const playerChoice = await getLocalData("playerChoice");
+  if (playerChoice) {
+    try {
+      const parsed = JSON.parse(playerChoice);
+      // Validate that parsed value is valid
+      if (parsed === true || parsed === false || parsed === "random") {
+        setIsPlayerX(parsed);
+      }
+    } catch (error) {
+      console.error("Error parsing player choice from localStorage:", error);
+    }
+  }
+}
+
+export async function getScores(
+  setScore: Dispatch<
+    SetStateAction<{ player: number; draw: number; computer: number }>
+  >,
+) {
+  const scores = await getLocalData("scores");
+  if (scores) {
+    try {
+      const parsed = JSON.parse(scores);
+      setScore(parsed);
+    } catch (error) {
+      console.error("Error parsing player choice from localStorage:", error);
+    }
+  }
+}
