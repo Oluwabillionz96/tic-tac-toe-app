@@ -13,7 +13,7 @@ const useGame = () => {
   const [isPlayerX, setIsPlayerX] = useState<boolean | "random">("random");
   const [isPlayersTurn, setIsPlayersTurn] = useState(isPlayerX === true);
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
-  const draw = board.every((value) => value);
+  const draw = winValues === undefined && board.every((value) => value);
   const [isgameOn, setIsgameOn] = useState(false);
   const gameOver = winValues !== undefined || draw;
   const [scores, setScores] = useState<Scores>({
@@ -50,15 +50,17 @@ const useGame = () => {
   }, [isPlayersTurn, board, gameOver, isPlayerX, isgameOn]);
 
   useEffect(() => {
-    setWinValues(checkWin(board));
+    const newWinValues = checkWin(board);
+    setWinValues(newWinValues);
 
-    // return () => setWinValues(undefined);
-  }, [board]);
+    // Update scores in the same effect after winValues is calculated
+    const isDraw = board.every((value) => value) && newWinValues === undefined;
+    const hasWinner = newWinValues !== undefined;
 
-  useEffect(() => {
-    if (!winValues && !board.every((square) => square)) return;
-    updateScores(scores, setScores, board, isPlayerX, winValues);
-  }, [winValues, board]);
+    if (isDraw || hasWinner) {
+      updateScores(setScores, board, isPlayerX, newWinValues);
+    }
+  }, [board, isPlayerX, setScores]);
 
   // Update isPlayersTurn when isPlayerX changes from "random" to boolean
   useEffect(() => {
