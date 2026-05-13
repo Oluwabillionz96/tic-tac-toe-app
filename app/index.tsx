@@ -2,20 +2,14 @@ import Board from "@/components/board";
 import ChoiceList from "@/components/choice-list";
 import PlayerChoiceModal from "@/components/player-choice-modal";
 import useGame from "@/hooks/use-game";
-import { saveLocalData } from "@/libs/utils";
+import { getPlayerChoice, saveLocalData } from "@/libs/utils";
 import { Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const {
     state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn },
-    stateSetter: {
-      setBoard,
-      setIsPlayersTurn,
-      setIsPlayerX,
-      setIsgameOn,
-    },
+    stateSetter: { setBoard, setIsPlayersTurn, setIsPlayerX, setIsgameOn },
     draw,
-    getPlayerChoice,
   } = useGame();
 
   const winner = winValues && board[winValues[0]];
@@ -54,7 +48,7 @@ export default function Index() {
             onPress={() => {
               setBoard(Array(9).fill(null));
               setIsgameOn(false);
-              getPlayerChoice();
+              getPlayerChoice(setIsPlayerX);
             }}
             style={{
               borderWidth: 1,

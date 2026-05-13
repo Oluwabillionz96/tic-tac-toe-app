@@ -1,4 +1,9 @@
-import { checkWin, getLocalData, otherPlayerAlgorithm } from "@/libs/utils";
+import {
+  checkWin,
+  getLocalData,
+  getPlayerChoice,
+  otherPlayerAlgorithm,
+} from "@/libs/utils";
 import { useEffect, useState } from "react";
 
 const useGame = () => {
@@ -10,23 +15,8 @@ const useGame = () => {
   const [isgameOn, setIsgameOn] = useState(false);
   const gameOver = winValues !== undefined || draw;
 
-  async function getPlayerChoice() {
-    const playerChoice = await getLocalData("playerChoice");
-    if (playerChoice) {
-      try {
-        const parsed = JSON.parse(playerChoice);
-        // Validate that parsed value is valid
-        if (parsed === true || parsed === false || parsed === "random") {
-          setIsPlayerX(parsed);
-        }
-      } catch (error) {
-        console.error("Error parsing player choice from localStorage:", error);
-      }
-    }
-  }
-
   useEffect(() => {
-    getPlayerChoice();
+    getPlayerChoice(setIsPlayerX);
   }, []);
 
   useEffect(() => {
@@ -64,7 +54,7 @@ const useGame = () => {
     }
   }, [isPlayerX]);
   return {
-    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn},
+    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn },
     stateSetter: {
       setBoard,
       setIsPlayersTurn,
