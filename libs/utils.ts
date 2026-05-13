@@ -98,3 +98,5 @@ export async function getScores(setScore: Dispatch<SetStateAction<Scores>>) {
   setScore(parsedScores);
   return;
 }
+
+
