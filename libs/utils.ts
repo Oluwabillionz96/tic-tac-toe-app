@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Scores } from "./types";
 
 const wins = [
   [0, 1, 2],
@@ -76,18 +77,24 @@ export async function getPlayerChoice(
   }
 }
 
-export async function getScores(
-  setScore: Dispatch<
-    SetStateAction<{ player: number; draw: number; computer: number }>
-  >,
-) {
+export async function getScores(setScore: Dispatch<SetStateAction<Scores>>) {
   const scores = await getLocalData("scores");
+  let parsedScores: Scores = { player: 0, computer: 0, draw: 0 };
   if (scores) {
     try {
       const parsed = JSON.parse(scores);
-      setScore(parsed);
+      if (
+        typeof parsed.player === "number" &&
+        typeof parsed.computer === "number" &&
+        typeof parsed.draw === "number"
+      ) {
+        parsedScores = parsed;
+      }
     } catch (error) {
       console.error("Error parsing player choice from localStorage:", error);
     }
   }
+
+  setScore(parsedScores);
+  return;
 }

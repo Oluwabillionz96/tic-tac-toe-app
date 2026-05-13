@@ -7,7 +7,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const {
-    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn },
+    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn, scores },
     stateSetter: { setBoard, setIsPlayersTurn, setIsPlayerX, setIsgameOn },
     draw,
   } = useGame();
@@ -21,9 +21,10 @@ export default function Index() {
         paddingInline: "5%",
       }}
     >
-      <View style={{ flexDirection: "row" }}>
-        <Text>You: </Text>
-        <Text>Computer: </Text>
+      <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+        <Text>You: {scores.player}</Text>
+        <Text>Computer: {scores.computer} </Text>
+        <Text>Draw: {scores.draw}</Text>
       </View>
       <Text>
         {winValues

@@ -1,4 +1,10 @@
-import { checkWin, getPlayerChoice, otherPlayerAlgorithm } from "@/libs/utils";
+import { Scores } from "@/libs/types";
+import {
+  checkWin,
+  getPlayerChoice,
+  getScores,
+  otherPlayerAlgorithm,
+} from "@/libs/utils";
 import { useEffect, useState } from "react";
 
 const useGame = () => {
@@ -9,9 +15,15 @@ const useGame = () => {
   const draw = board.every((value) => value);
   const [isgameOn, setIsgameOn] = useState(false);
   const gameOver = winValues !== undefined || draw;
+  const [scores, setScores] = useState<Scores>({
+    player: 0,
+    draw: 0,
+    computer: 0,
+  });
 
   useEffect(() => {
     getPlayerChoice(setIsPlayerX);
+    getScores(setScores);
   }, []);
 
   useEffect(() => {
@@ -50,12 +62,13 @@ const useGame = () => {
   }, [isPlayerX, winValues]);
 
   return {
-    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn },
+    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn, scores },
     stateSetter: {
       setBoard,
       setIsPlayersTurn,
       setIsPlayerX,
       setIsgameOn,
+      setScores,
     },
     draw,
     getPlayerChoice,
