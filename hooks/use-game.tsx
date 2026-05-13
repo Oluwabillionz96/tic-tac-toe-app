@@ -1,9 +1,4 @@
-import {
-  checkWin,
-  getLocalData,
-  getPlayerChoice,
-  otherPlayerAlgorithm,
-} from "@/libs/utils";
+import { checkWin, getPlayerChoice, otherPlayerAlgorithm } from "@/libs/utils";
 import { useEffect, useState } from "react";
 
 const useGame = () => {
@@ -52,7 +47,8 @@ const useGame = () => {
     if (isPlayerX !== "random") {
       setIsPlayersTurn(isPlayerX);
     }
-  }, [isPlayerX]);
+  }, [isPlayerX, winValues]);
+
   return {
     state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn },
     stateSetter: {
