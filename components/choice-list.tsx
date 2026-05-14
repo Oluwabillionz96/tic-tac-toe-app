@@ -39,10 +39,9 @@ const ChoiceList = ({
       data={playerChoices}
       contentContainerStyle={{
         flexDirection: "row",
-        gap: 20,
         alignItems: "center",
-        justifyContent: "center",
-        height: "80%",
+        justifyContent: "space-evenly",
+        // height: "50%",
       }}
       renderItem={({ item }) => (
         <TouchableOpacity
@@ -52,7 +51,7 @@ const ChoiceList = ({
           style={{
             borderWidth: 2,
             borderStyle: "solid",
-            padding: 20,
+            padding: 10,
             backgroundColor: item.value === isPlayerX ? "red" : "transparent",
           }}
         >

@@ -1,9 +1,10 @@
+import { otherPlayerAlgorithm } from "@/libs/algorithm";
 import { Scores } from "@/libs/types";
 import {
   checkWin,
+  getLevel,
   getPlayerChoice,
   getScores,
-  otherPlayerAlgorithm,
   updateScores,
 } from "@/libs/utils";
 import { useEffect, useState } from "react";
@@ -15,6 +16,7 @@ const useGame = () => {
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
   const draw = winValues === undefined && board.every((value) => value);
   const [isgameOn, setIsgameOn] = useState(false);
+  const [isLevelEasy, setIsLevelEasy] = useState(true);
   const gameOver = winValues !== undefined || draw;
   const [scores, setScores] = useState<Scores>({
     player: 0,
@@ -25,6 +27,7 @@ const useGame = () => {
   useEffect(() => {
     getPlayerChoice(setIsPlayerX);
     getScores(setScores);
+    getLevel(setIsLevelEasy);
   }, []);
 
   useEffect(() => {
@@ -38,6 +41,7 @@ const useGame = () => {
           board,
           setBoard,
           isPlayerX,
+          isLevelEasy,
         );
       }, 1000);
     }
@@ -70,7 +74,15 @@ const useGame = () => {
   }, [isPlayerX, winValues]);
 
   return {
-    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn, scores },
+    state: {
+      board,
+      isPlayersTurn,
+      winValues,
+      isPlayerX,
+      isgameOn,
+      scores,
+      isLevelEasy,
+    },
     stateSetter: {
       setBoard,
       setIsPlayersTurn,
@@ -78,6 +90,7 @@ const useGame = () => {
       setIsgameOn,
       setScores,
       setWinValues,
+      setIsLevelEasy,
     },
     draw,
     getPlayerChoice,

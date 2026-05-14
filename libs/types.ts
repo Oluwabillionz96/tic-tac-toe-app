@@ -3,3 +3,5 @@ export interface Scores {
   draw: number;
   computer: number;
 }
+
+export type Board = ("X" | "O" | null)[];

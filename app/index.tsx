@@ -1,5 +1,6 @@
 import Board from "@/components/board";
 import ChoiceList from "@/components/choice-list";
+import LevelList from "@/components/level-list";
 import PlayerChoiceModal from "@/components/player-choice-modal";
 import useGame from "@/hooks/use-game";
 import { getPlayerChoice, saveLocalData } from "@/libs/utils";
@@ -7,13 +8,22 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
   const {
-    state: { board, isPlayersTurn, winValues, isPlayerX, isgameOn, scores },
+    state: {
+      board,
+      isPlayersTurn,
+      winValues,
+      isPlayerX,
+      isgameOn,
+      scores,
+      isLevelEasy,
+    },
     stateSetter: {
       setBoard,
       setIsPlayersTurn,
       setIsPlayerX,
       setIsgameOn,
       setWinValues,
+      setIsLevelEasy,
     },
     draw,
   } = useGame();
@@ -82,10 +92,13 @@ export default function Index() {
               return value;
             }
           });
+
+          saveLocalData("level", JSON.stringify(isLevelEasy));
           setIsgameOn(true);
         }}
       >
         <ChoiceList setIsPlayerX={setIsPlayerX} isPlayerX={isPlayerX} />
+        <LevelList setIsEasy={setIsLevelEasy} isEasy={isLevelEasy} />
       </PlayerChoiceModal>
     </View>
   );

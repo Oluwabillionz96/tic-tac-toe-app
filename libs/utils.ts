@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Scores } from "./types";
+import { Board, Scores } from "./types";
 
-const wins = [
+export const wins = [
   [0, 1, 2],
   [0, 3, 6],
   [0, 4, 8],
@@ -13,34 +13,19 @@ const wins = [
   [6, 7, 8],
 ];
 
-function getRandomNumber(board: ("X" | "O" | null)[]) {
+export function getRandomIndex(multipliyer: number) {
+  return Math.floor(Math.random() * multipliyer);
+}
+
+export function getRandomNumber(board: Board) {
   const emptyIndices = board
     .map((item, index) => (item === null ? index : -1))
     .filter((index) => index !== -1);
 
   if (emptyIndices.length === 0) return -1;
 
-  const randomIndex = Math.floor(Math.random() * emptyIndices.length);
-  return emptyIndices[randomIndex];
+  return emptyIndices[getRandomIndex(emptyIndices.length)];
 }
-
-export const otherPlayerAlgorithm = (
-  isPlayerTurn: boolean,
-  setTurn: Dispatch<SetStateAction<boolean>>,
-  board: ("X" | "O" | null)[],
-  setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>,
-  isPlayerX: boolean | "random",
-) => {
-  if (isPlayerTurn) return;
-
-  const nextMoveIndex = getRandomNumber(board);
-  if (nextMoveIndex === -1) return; // No valid moves left
-
-  const newBoard = [...board];
-  newBoard[nextMoveIndex] = isPlayerX === true ? "O" : "X";
-  setBoard(newBoard);
-  setTurn(true);
-};
 
 export const checkWin = (board: ("X" | "O" | null)[]) => {
   for (const win of wins) {
@@ -99,6 +84,24 @@ export async function getScores(setScore: Dispatch<SetStateAction<Scores>>) {
   return;
 }
 
+export async function getLevel(setLevel: Dispatch<SetStateAction<boolean>>) {
+  const level = await getLocalData("level");
+  let parsedLevel: boolean = true;
+  if (level) {
+    try {
+      const parsed = JSON.parse(level);
+      if (typeof parsed === "boolean") {
+        parsedLevel = parsed;
+      }
+    } catch (error) {
+      console.error("Error parsing Level from localStorage:", error);
+    }
+  }
+
+  setLevel(parsedLevel);
+  return;
+}
+
 export async function updateScores(
   setScores: Dispatch<SetStateAction<Scores>>,
   board: ("X" | "O" | null)[],
@@ -125,7 +128,6 @@ export async function updateScores(
     }
 
     saveLocalData("scores", JSON.stringify(newScore));
-    console.log({ draw, winValues });
     return newScore;
   });
 }
