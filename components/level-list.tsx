@@ -1,20 +1,16 @@
+import { GameLevel } from "@/libs/types";
 import { Dispatch, SetStateAction } from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { Text, FlatList, TouchableOpacity } from "react-native";
 
-const levelData = [
+const levelData: { label: string; value: GameLevel }[] = [
   {
     label: "Easy",
-    value: true,
-    handlePress: (setIsEasy: Dispatch<SetStateAction<boolean>>) => {
-      setIsEasy(true);
-    },
+    value: "easy",
   },
+  { label: "Medium", value: "medium" },
   {
     label: "Hard",
-    value: false,
-    handlePress: (setIsEasy: Dispatch<SetStateAction<boolean>>) => {
-      setIsEasy(false);
-    },
+    value: "hard",
   },
 ];
 
@@ -22,8 +18,8 @@ const LevelList = ({
   setIsEasy,
   isEasy,
 }: {
-  setIsEasy: Dispatch<SetStateAction<boolean>>;
-  isEasy: boolean;
+  setIsEasy: Dispatch<SetStateAction<GameLevel>>;
+  isEasy: GameLevel;
 }) => {
   return (
     <FlatList
@@ -44,7 +40,7 @@ const LevelList = ({
             backgroundColor: item.value === isEasy ? "red" : "transparent",
           }}
           onPress={() => {
-            item.handlePress(setIsEasy);
+            setIsEasy(item.value);
           }}
         >
           <Text>{item.label}</Text>

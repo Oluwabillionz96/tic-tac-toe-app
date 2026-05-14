@@ -1,9 +1,13 @@
 import { Dispatch, SetStateAction } from "react";
-import { Board } from "./types";
-import { getRandomNumber } from "./utils";
+import { Board, GameLevel } from "./types";
+import { getRandomMove } from "./utils";
 import { findMoves, takePlace } from "./moves";
 
-function smartAlgorithm(board: Board, isPlayerX: boolean) {
+function smartAlgorithm(board: Board, isPlayerX: boolean, level: GameLevel) {
+  if (level === "medium" && Math.random() < 0.3) {
+    return getRandomMove(board);
+  }
+
   const winningMove = findMoves(board, isPlayerX ? "O" : "X");
   if (winningMove > -1) {
     return winningMove;
@@ -29,7 +33,7 @@ function smartAlgorithm(board: Board, isPlayerX: boolean) {
     return side;
   }
 
-  return getRandomNumber(board);
+  return getRandomMove(board);
 }
 
 export const otherPlayerAlgorithm = (
@@ -38,16 +42,16 @@ export const otherPlayerAlgorithm = (
   board: Board,
   setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>,
   isPlayerX: boolean | "random",
-  isLevelEasy: boolean,
+  level: GameLevel,
 ) => {
   if (isPlayerTurn) return;
 
   let nextMoveIndex;
-  if (isLevelEasy) {
-    nextMoveIndex = getRandomNumber(board);
+  if (level === "easy") {
+    nextMoveIndex = getRandomMove(board);
     if (nextMoveIndex === -1) return; // No valid moves left
   } else {
-    nextMoveIndex = smartAlgorithm(board, isPlayerX as boolean);
+    nextMoveIndex = smartAlgorithm(board, isPlayerX as boolean, level);
   }
 
   const newBoard = [...board];

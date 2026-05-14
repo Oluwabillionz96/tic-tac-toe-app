@@ -15,7 +15,7 @@ export default function Index() {
       isPlayerX,
       isgameOn,
       scores,
-      isLevelEasy,
+      gameLevel,
     },
     stateSetter: {
       setBoard,
@@ -23,7 +23,7 @@ export default function Index() {
       setIsPlayerX,
       setIsgameOn,
       setWinValues,
-      setIsLevelEasy,
+      SetGameLevel,
     },
     draw,
   } = useGame();
@@ -93,12 +93,12 @@ export default function Index() {
             }
           });
 
-          saveLocalData("level", JSON.stringify(isLevelEasy));
+          saveLocalData("level", JSON.stringify(gameLevel));
           setIsgameOn(true);
         }}
       >
         <ChoiceList setIsPlayerX={setIsPlayerX} isPlayerX={isPlayerX} />
-        <LevelList setIsEasy={setIsLevelEasy} isEasy={isLevelEasy} />
+        <LevelList setIsEasy={SetGameLevel} isEasy={gameLevel} />
       </PlayerChoiceModal>
     </View>
   );

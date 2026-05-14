@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Board, Scores } from "./types";
+import { Board, GameLevel, Scores } from "./types";
 
 export const wins = [
   [0, 1, 2],
@@ -17,7 +17,7 @@ export function getRandomIndex(multipliyer: number) {
   return Math.floor(Math.random() * multipliyer);
 }
 
-export function getRandomNumber(board: Board) {
+export function getRandomMove(board: Board) {
   const emptyIndices = board
     .map((item, index) => (item === null ? index : -1))
     .filter((index) => index !== -1);
@@ -84,13 +84,13 @@ export async function getScores(setScore: Dispatch<SetStateAction<Scores>>) {
   return;
 }
 
-export async function getLevel(setLevel: Dispatch<SetStateAction<boolean>>) {
+export async function getLevel(setLevel: Dispatch<SetStateAction<GameLevel>>) {
   const level = await getLocalData("level");
-  let parsedLevel: boolean = true;
+  let parsedLevel: GameLevel = "medium";
   if (level) {
     try {
       const parsed = JSON.parse(level);
-      if (typeof parsed === "boolean") {
+      if (parsed === "easy" || parsed === "medium" || parsed === "hard") {
         parsedLevel = parsed;
       }
     } catch (error) {

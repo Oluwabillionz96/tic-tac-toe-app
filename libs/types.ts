@@ -5,3 +5,5 @@ export interface Scores {
 }
 
 export type Board = ("X" | "O" | null)[];
+
+export type GameLevel = "easy" | "medium" | "hard";
