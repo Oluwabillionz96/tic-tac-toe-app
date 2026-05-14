@@ -1,37 +1,29 @@
 import { Board } from "./types";
-import { wins } from "./utils";
+import { getRandomIndex, wins } from "./utils";
 
-export function findWinningMoves(board: Board, computerSymbol: "X" | "O") {
-  let winningMove: number = -1;
-  wins.forEach((win) => {
-    const values = win.filter((item) => board[item]);
-    if (values.length === 2) {
-      const [a, b] = values;
-      if (board[a] === board[b] && board[a] === computerSymbol) {
-        winningMove = win.filter((index) => !values.includes(index))[0];
-      }
+export function findMoves(board: Board, Symbol: "X" | "O") {
+  for (const win of wins) {
+    const [a, b, c] = win;
+    const values = [board[a], board[b], board[c]];
+
+    const symbolCount = values.filter((v) => v === Symbol).length;
+    const emptyCount = values.filter((v) => v === null).length;
+
+    if (symbolCount === 2 && emptyCount === 1) {
+      if (board[a] === null) return a;
+      if (board[b] === null) return b;
+      if (board[c] === null) return c;
     }
-  });
+  }
 
-  return winningMove;
-}
-
-export function findBlockingMoves(board: Board, playerSymbol: "X" | "O") {
-  let blockingMove: number = -1;
-  wins.forEach((win) => {
-    const values = win.filter((item) => board[item]);
-    if (values.length === 2) {
-      const [a, b] = values;
-      if (board[a] === board[b] && board[a] === playerSymbol) {
-        blockingMove = win.filter((index) => !values.includes(index))[0];
-      }
-    }
-  });
-
-  return blockingMove;
+  return -1;
 }
 
 export function takePlace(board: Board, places: number[]) {
   const emptyplaces = places.filter((place) => board[place] === null);
-  return emptyplaces[0] ? emptyplaces[0] : -1;
+
+  if (emptyplaces.length === 0) {
+    return -1;
+  }
+  return emptyplaces[getRandomIndex(emptyplaces.length)];
 }

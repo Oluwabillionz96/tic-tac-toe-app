@@ -1,31 +1,31 @@
 import { Dispatch, SetStateAction } from "react";
 import { Board } from "./types";
 import { getRandomNumber } from "./utils";
-import { findBlockingMoves, findWinningMoves, takePlace } from "./moves";
+import { findMoves, takePlace } from "./moves";
 
 function smartAlgorithm(board: Board, isPlayerX: boolean) {
-  const winningMove = findWinningMoves(board, isPlayerX ? "O" : "X");
-  if (winningMove && winningMove > -1) {
+  const winningMove = findMoves(board, isPlayerX ? "O" : "X");
+  if (winningMove > -1) {
     return winningMove;
   }
 
-  const blockingMove = findBlockingMoves(board, isPlayerX ? "X" : "O");
-  if (blockingMove && blockingMove > -1) {
+  const blockingMove = findMoves(board, isPlayerX ? "X" : "O");
+  if (blockingMove > -1) {
     return blockingMove;
   }
   if (board[4] === null) {
     return 4;
   }
 
-  const coner = takePlace(board, [0, 2, 6, 8]);
+  const corner = takePlace(board, [0, 2, 6, 8]);
 
-  if (coner && coner > -1) {
-    return coner;
+  if (corner > -1) {
+    return corner;
   }
 
   const side = takePlace(board, [1, 3, 5, 7]);
 
-  if (side && side > -1) {
+  if (side > -1) {
     return side;
   }
 
