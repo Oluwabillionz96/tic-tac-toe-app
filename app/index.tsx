@@ -92,7 +92,7 @@ export default function Index() {
               return value;
             }
           });
-
+          setIsPlayersTurn(isPlayerX === true);
           saveLocalData("level", JSON.stringify(gameLevel));
           setIsgameOn(true);
         }}
