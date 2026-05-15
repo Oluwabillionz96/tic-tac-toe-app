@@ -1,6 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Board, GameLevel, Scores } from "./types";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { RelativePathString } from "expo-router";
 
 export const wins = [
   [0, 1, 2],
@@ -11,6 +13,16 @@ export const wins = [
   [2, 4, 6],
   [3, 4, 5],
   [6, 7, 8],
+];
+
+export const navigationLinks: {
+  label: string;
+  iconName: keyof typeof Ionicons.glyphMap;
+  href: RelativePathString;
+}[] = [
+  { label: "Play", iconName: "play-outline", href: "./play" },
+  { label: "Statistics", iconName: "stats-chart-outline", href: "./href" },
+  { label: "Settings", iconName: "settings-outline", href: "./settings" },
 ];
 
 export function getRandomIndex(multipliyer: number) {

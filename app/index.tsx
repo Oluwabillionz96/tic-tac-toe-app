@@ -1,105 +1,62 @@
-import Board from "@/components/board";
-import ChoiceList from "@/components/choice-list";
-import LevelList from "@/components/level-list";
-import PlayerChoiceModal from "@/components/player-choice-modal";
-import useGame from "@/hooks/use-game";
-import { getPlayerChoice, saveLocalData } from "@/libs/utils";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import NavLinksContainer from "@/libs/nav-links-container";
 
-export default function Index() {
-  const {
-    state: {
-      board,
-      isPlayersTurn,
-      winValues,
-      isPlayerX,
-      isgameOn,
-      scores,
-      gameLevel,
-    },
-    stateSetter: {
-      setBoard,
-      setIsPlayersTurn,
-      setIsPlayerX,
-      setIsgameOn,
-      setWinValues,
-      SetGameLevel,
-    },
-    draw,
-  } = useGame();
-
-  const winner = winValues && board[winValues[0]];
-  const playerValue = isPlayerX ? "X" : "O";
-
+const HomeScreen = () => {
   return (
     <View
       style={{
-        paddingInline: "5%",
+        height: "100%",
+        backgroundColor: "#F9F9FF",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingInline: 24,
       }}
     >
-      <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-        <Text>You: {scores.player}</Text>
-        <Text>Computer: {scores.computer} </Text>
-        <Text>Draw: {scores.draw}</Text>
-      </View>
-      <Text>
-        {winValues
-          ? `Game Over: ${winner === playerValue ? "You" : "Computer"} Win${winner === playerValue ? "" : "s"}`
-          : draw
-            ? "Game Over: Draw"
-            : isPlayersTurn
-              ? "Your Turn"
-              : "Computer's turn"}
-      </Text>
-      <Board
-        isPlayersTurn={isPlayersTurn}
-        setIsPlayersTurn={setIsPlayersTurn}
-        setBoard={setBoard}
-        board={board}
-        winValues={winValues}
-        isPlayerX={isPlayerX}
-      />
-      {(winValues || draw) && (
-        <View style={{ flexDirection: "column" }}>
-          <TouchableOpacity
-            onPress={() => {
-              setBoard(Array(9).fill(null));
-              setIsgameOn(false);
-              getPlayerChoice(setIsPlayerX);
-              setWinValues(undefined);
-            }}
-            style={{
-              borderWidth: 1,
-              borderStyle: "solid",
-              borderColor: "black",
-              height: 50,
-              width: "100%",
-            }}
-          >
-            <Text>Restart Game</Text>
-          </TouchableOpacity>
+      <View style={{ width: "100%", gap: 40 }}>
+        <View
+          style={{
+            width: "100%",
+            alignItems: "center",
+            gap: 30,
+          }}
+        >
+          <Text style={{ fontWeight: "bold", fontSize: 32, color: "#4648D4" }}>
+            Tic-Tac-Toe
+          </Text>
+          <View style={{ gap: 15 }}>
+            <View
+              style={{
+                paddingBlock: 24,
+                paddingInline: 32,
+                boxShadow: "5px 5px 5px rgba(0,0,0,0.2)",
+                borderRadius: 24,
+                alignSelf: "center",
+              }}
+            >
+              <MaterialCommunityIcons
+                name="gamepad-variant"
+                size={50}
+                color="#4648D4"
+              />
+            </View>
+            <Text
+              style={{
+                textTransform: "uppercase",
+                letterSpacing: 3,
+                color: "#464554",
+                fontWeight: "semibold",
+                fontSize: 12,
+              }}
+            >
+              Minimalistic Play
+            </Text>
+          </View>
         </View>
-      )}
-      <PlayerChoiceModal
-        isVisible={!isgameOn}
-        handleContinue={() => {
-          setIsPlayerX((value) => {
-            if (value === "random") {
-              saveLocalData("playerChoice", JSON.stringify("random"));
-              return Math.floor(Math.random() * 2) === 1;
-            } else {
-              saveLocalData("playerChoice", JSON.stringify(value));
-              return value;
-            }
-          });
-          setIsPlayersTurn(isPlayerX === true);
-          saveLocalData("level", JSON.stringify(gameLevel));
-          setIsgameOn(true);
-        }}
-      >
-        <ChoiceList setIsPlayerX={setIsPlayerX} isPlayerX={isPlayerX} />
-        <LevelList setIsEasy={SetGameLevel} isEasy={gameLevel} />
-      </PlayerChoiceModal>
+        <NavLinksContainer />
+      </View>
     </View>
   );
-}
+};
+
+export default HomeScreen;
