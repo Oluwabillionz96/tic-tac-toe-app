@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-const Settings = () => {
+const SettingsScreen = () => {
   return (
     <View
       style={{
@@ -13,4 +13,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default SettingsScreen;

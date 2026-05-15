@@ -21,7 +21,7 @@ export const navigationLinks: {
   href: RelativePathString;
 }[] = [
   { label: "Play", iconName: "play-outline", href: "./play" },
-  { label: "Statistics", iconName: "stats-chart-outline", href: "./href" },
+  { label: "Statistics", iconName: "stats-chart-outline", href: "./stats" },
   { label: "Settings", iconName: "settings-outline", href: "./settings" },
 ];
 
