@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import NavLinksContainer from "@/libs/nav-links-container";
+import NavLinksContainer from "@/components/nav-links-container";
 
 const HomeScreen = () => {
   return (

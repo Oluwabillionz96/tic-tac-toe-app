@@ -1,5 +1,5 @@
 import { FlatList } from "react-native";
-import { navigationLinks } from "./utils";
+import { navigationLinks } from "../libs/utils";
 import NavLink from "./nav-link";
 
 const NavLinksContainer = () => {
