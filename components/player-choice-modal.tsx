@@ -1,4 +1,4 @@
-import { View, Text, Modal, TouchableOpacity } from "react-native";
+import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
 
 const PlayerChoiceModal = ({
   handleContinue,
@@ -10,54 +10,67 @@ const PlayerChoiceModal = ({
   children: React.ReactNode;
 }) => {
   return (
-    <Modal
-      animationType="slide"
-      transparent
-      visible={isVisible}
-      style={{ paddingInline: 24 }}
-    >
-      <View
-        style={{
-          position: "relative",
-          height: "100%",
-          backgroundColor: "rgba(255, 255, 255, 0.6)",
-          // backdropFilter: "100px",
-        }}
-      >
-        <View
-          style={{
-            paddingBlock: 10,
-            height: "35%",
-            position: "absolute",
-            width: "100%",
-            bottom: "32.5%",
-            backgroundColor: "white",
-            borderTopLeftRadius: 15,
-            paddingInline: 20,
-            borderTopRightRadius: 15,
-          }}
-        >
-          <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
-          >
-            <Text>Choose Type</Text>
+    <Modal animationType="fade" transparent visible={isVisible}>
+      {/* Semi-transparent backdrop - works with Expo Go */}
+      <View style={styles.backdrop}>
+        <View style={styles.modalContent}>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>Choose Type</Text>
           </View>
           {children}
           <TouchableOpacity
-            style={{
-              borderWidth: 1,
-              borderStyle: "solid",
-              borderColor: "grey",
-              height: "20%",
-            }}
+            style={styles.continueButton}
             onPress={handleContinue}
           >
-            <Text style={{ fontSize: 24, textAlign: "center" }}>Continue</Text>
+            <Text style={styles.continueButtonText}>Continue</Text>
           </TouchableOpacity>
         </View>
       </View>
     </Modal>
   );
 };
+
+const styles = StyleSheet.create({
+  backdrop: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent dark overlay
+    padding: 24,
+  },
+  modalContent: {
+    width: "100%",
+    maxWidth: 400,
+    backgroundColor: "white",
+    borderRadius: 15,
+    padding: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 16,
+  },
+  headerText: {
+    fontSize: 18,
+    fontWeight: "600",
+  },
+  continueButton: {
+    borderWidth: 1,
+    borderStyle: "solid",
+    borderColor: "grey",
+    paddingVertical: 12,
+    borderRadius: 8,
+    marginTop: 16,
+  },
+  continueButtonText: {
+    fontSize: 24,
+    textAlign: "center",
+  },
+});
 
 export default PlayerChoiceModal;
