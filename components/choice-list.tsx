@@ -1,29 +1,39 @@
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Dispatch, SetStateAction } from "react";
-import { FlatList, Text, TouchableOpacity } from "react-native";
+import { FlatList } from "react-native";
+import SymbolCard from "./symbol-card";
 
 type SetIsPlayerX = Dispatch<SetStateAction<boolean | "random">>;
 
-const playerChoices = [
+const iconSize = 24;
+
+const playerChoices: {
+  label: string;
+  value: boolean | "random";
+  icon: React.ReactNode;
+}[] = [
   {
-    label: "X",
+    label: "First",
     value: true,
-    handlePress: (setIsPlayerX: SetIsPlayerX) => {
-      setIsPlayerX(true);
-    },
+    icon: (
+      <MaterialCommunityIcons
+        name="window-close"
+        size={iconSize}
+        color="#4648D4"
+      />
+    ),
   },
   {
-    label: "O",
+    label: "Second",
     value: false,
-    handlePress: (setIsPlayerX: SetIsPlayerX) => {
-      setIsPlayerX(false);
-    },
+    icon: <FontAwesome6 name="circle" size={iconSize} color="#B90538" />,
   },
   {
     label: "Random",
     value: "random",
-    handlePress: (setIsPlayerX: SetIsPlayerX) => {
-      setIsPlayerX("random");
-    },
+    icon: <FontAwesome name="random" size={iconSize} color="#464554" />,
   },
 ];
 
@@ -41,22 +51,18 @@ const ChoiceList = ({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-evenly",
+        gap: 12,
         // height: "50%",
       }}
       renderItem={({ item }) => (
-        <TouchableOpacity
-          onPress={() => {
-            item.handlePress(setIsPlayerX);
+        <SymbolCard
+          icon={item.icon}
+          label={item.label}
+          isSelected={item.value === isPlayerX}
+          handlePress={() => {
+            setIsPlayerX(item.value);
           }}
-          style={{
-            borderWidth: 2,
-            borderStyle: "solid",
-            padding: 10,
-            backgroundColor: item.value === isPlayerX ? "red" : "transparent",
-          }}
-        >
-          <Text style={{ fontSize: 30 }}>{item.label}</Text>
-        </TouchableOpacity>
+        />
       )}
     />
   );
