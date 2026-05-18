@@ -22,7 +22,7 @@ const PlayerChoiceModal = ({
             style={styles.continueButton}
             onPress={handleContinue}
           >
-            <Text style={styles.continueButtonText}>Continue</Text>
+            <Text style={styles.continueButtonText}>Start Game</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-   
+
     width: "100%",
     alignItems: "center",
   },
@@ -67,16 +67,15 @@ const styles = StyleSheet.create({
     // marginBottom: 32,
   },
   continueButton: {
-    borderWidth: 1,
-    borderStyle: "solid",
-    borderColor: "grey",
-    paddingVertical: 12,
-    borderRadius: 8,
+    paddingVertical: 16,
+    borderRadius: 999,
     marginTop: 16,
+    backgroundColor: "#4648D4",
   },
   continueButtonText: {
     fontSize: 24,
     textAlign: "center",
+    color: "white",
   },
 });
 
