@@ -20,9 +20,17 @@ export const navigationLinks: {
   iconName: keyof typeof Ionicons.glyphMap;
   href: RelativePathString;
 }[] = [
-  { label: "Play", iconName: "play-outline", href: "./play" },
-  { label: "Statistics", iconName: "stats-chart-outline", href: "./stats" },
-  { label: "Settings", iconName: "settings-outline", href: "./settings" },
+  { label: "Play", iconName: "play-outline", href: "./(tabs)/play" },
+  {
+    label: "Statistics",
+    iconName: "stats-chart-outline",
+    href: "./(tabs)/stats",
+  },
+  {
+    label: "Settings",
+    iconName: "settings-outline",
+    href: "./(tabs)/settings",
+  },
 ];
 
 export function getRandomIndex(multipliyer: number) {

@@ -17,8 +17,8 @@ const SymbolCard = ({
       <View
         style={{
           borderRadius: 16,
-          paddingBlock: 16,
-          paddingInline: 24,
+          paddingVertical: 16,
+          paddingHorizontal: 21,
           backgroundColor: "#F0F3FF",
           gap: 7,
           alignItems: "center",

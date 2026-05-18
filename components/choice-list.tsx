@@ -51,7 +51,7 @@ const ChoiceList = ({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-evenly",
-        gap: 12,
+        gap: 10,
         // height: "50%",
       }}
       renderItem={({ item }) => (
