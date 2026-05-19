@@ -65,6 +65,10 @@ export async function getLocalData(key: string): Promise<string | null> {
   return await AsyncStorage.getItem(key);
 }
 
+export async function reset() {
+  return await AsyncStorage.clear();
+}
+
 export async function getPlayerChoice(
   setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>,
 ) {

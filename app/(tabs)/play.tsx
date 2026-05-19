@@ -1,7 +1,9 @@
 import Board from "@/components/board";
 import ChoiceList from "@/components/choice-list";
+import Indicator from "@/components/indicator";
 import LevelList from "@/components/level-list";
 import PlayerChoiceModal from "@/components/player-choice-modal";
+import ScoreRow from "@/components/score-row";
 import useGame from "@/hooks/use-game";
 import { getPlayerChoice, saveLocalData } from "@/libs/utils";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -14,7 +16,7 @@ export default function Index() {
       winValues,
       isPlayerX,
       isgameOn,
-      scores,
+      scores: scoresValue,
       gameLevel,
     },
     stateSetter: {
@@ -34,23 +36,18 @@ export default function Index() {
   return (
     <View
       style={{
-        paddingInline: "5%",
+        paddingInline: 24,
+        paddingVertical: 16,
+        gap: 32,
       }}
     >
-      <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
-        <Text>You: {scores.player}</Text>
-        <Text>Computer: {scores.computer} </Text>
-        <Text>Draw: {scores.draw}</Text>
-      </View>
-      <Text>
-        {winValues
-          ? `Game Over: ${winner === playerValue ? "You" : "Computer"} Win${winner === playerValue ? "" : "s"}`
-          : draw
-            ? "Game Over: Draw"
-            : isPlayersTurn
-              ? "Your Turn"
-              : "Computer's turn"}
-      </Text>
+      <ScoreRow isPlayerX={isPlayerX as boolean} scoresValue={scoresValue} />
+      <Indicator
+        playerWins={winner === playerValue}
+        winValues={winValues}
+        draw={draw}
+        isPlayersTurn={isPlayersTurn}
+      />
       <Board
         isPlayersTurn={isPlayersTurn}
         setIsPlayersTurn={setIsPlayersTurn}

@@ -1,7 +1,11 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
+import { reset } from "@/libs/utils";
 
 const SettingsScreen = () => {
+  useEffect(() => {
+    reset();
+  }, []);
   return (
     <View
       style={{
