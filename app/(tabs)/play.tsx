@@ -4,6 +4,7 @@ import Indicator from "@/components/indicator";
 import LevelList from "@/components/level-list";
 import PlayerChoiceModal from "@/components/player-choice-modal";
 import ScoreRow from "@/components/score-row";
+import WinModal from "@/components/win-modal";
 import useGame from "@/hooks/use-game";
 import { getPlayerChoice, saveLocalData } from "@/libs/utils";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -32,6 +33,7 @@ export default function Index() {
 
   const winner = winValues && board[winValues[0]];
   const playerValue = isPlayerX ? "X" : "O";
+  const playerWins = winner === playerValue;
 
   return (
     <View
@@ -43,9 +45,9 @@ export default function Index() {
     >
       <ScoreRow isPlayerX={isPlayerX as boolean} scoresValue={scoresValue} />
       <Indicator
-        playerWins={winner === playerValue}
-        winValues={winValues}
-        draw={draw}
+        // playerWins={winner === playerValue}
+        // winValues={winValues}
+        // draw={draw}
         isPlayersTurn={isPlayersTurn}
       />
       <Board
@@ -56,27 +58,19 @@ export default function Index() {
         winValues={winValues}
         isPlayerX={isPlayerX}
       />
-      {(winValues || draw) && (
-        <View style={{ flexDirection: "column" }}>
-          <TouchableOpacity
-            onPress={() => {
-              setBoard(Array(9).fill(null));
-              setIsgameOn(false);
-              getPlayerChoice(setIsPlayerX);
-              setWinValues(undefined);
-            }}
-            style={{
-              borderWidth: 1,
-              borderStyle: "solid",
-              borderColor: "black",
-              height: 50,
-              width: "100%",
-            }}
-          >
-            <Text>Restart Game</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <WinModal
+        winValues={winValues}
+        draw={draw}
+        playerWins={playerWins}
+        handlePress={() => {
+          setBoard(Array(9).fill(null));
+          setIsgameOn(false);
+          getPlayerChoice(setIsPlayerX);
+          setWinValues(undefined);
+        }}
+        key=
+      />
+
       <PlayerChoiceModal
         isVisible={!isgameOn}
         handleContinue={() => {

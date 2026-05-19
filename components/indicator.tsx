@@ -2,17 +2,7 @@ import { Text, View } from "react-native";
 import React from "react";
 import Entypo from "@expo/vector-icons/Entypo";
 
-const Indicator = ({
-  winValues,
-  playerWins,
-  draw,
-  isPlayersTurn,
-}: {
-  winValues?: number[];
-  playerWins: boolean;
-  draw: boolean;
-  isPlayersTurn: boolean;
-}) => {
+const Indicator = ({ isPlayersTurn }: { isPlayersTurn: boolean }) => {
   return (
     <View
       style={{
@@ -34,13 +24,7 @@ const Indicator = ({
           color: "#4648D4",
         }}
       >
-        {winValues
-          ? `Game Over: ${playerWins ? "You" : "Computer"} Win${playerWins ? "" : "s"}`
-          : draw
-            ? "Game Over: Draw"
-            : isPlayersTurn
-              ? "Your Turn"
-              : "Computer's turn"}
+        {isPlayersTurn ? "Your Turn" : "Computer's turn"}
       </Text>
     </View>
   );

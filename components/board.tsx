@@ -31,18 +31,20 @@ const Board = ({
         <Square
           value={item}
           handlePress={() => {
-            if (!gameOver && !board[index]) {
-              const newBoard = [...board];
-              if (isPlayersTurn) {
-                newBoard[index] = isPlayerX === true ? "X" : "O";
-              }
+            if (isPlayersTurn) {
+              if (!gameOver && !board[index]) {
+                const newBoard = [...board];
 
-              setBoard(newBoard);
-              setIsPlayersTurn(!isPlayersTurn);
-            } else if (board[index]) {
-              alert("Square already taken!");
+                newBoard[index] = isPlayerX === true ? "X" : "O";
+
+                setBoard(newBoard);
+                setIsPlayersTurn(!isPlayersTurn);
+              } else if (board[index]) {
+                alert("Square already taken!");
+              }
             }
           }}
+          disabled={!isPlayersTurn}
           index={index}
           winValues={winValues}
           gameOver={gameOver}

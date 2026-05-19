@@ -1,4 +1,5 @@
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
+import Button from "./button";
 
 const PlayerChoiceModal = ({
   handleContinue,
@@ -18,12 +19,7 @@ const PlayerChoiceModal = ({
             <Text style={styles.headerText}>Choose Your side</Text>
           </View>
           {children}
-          <TouchableOpacity
-            style={styles.continueButton}
-            onPress={handleContinue}
-          >
-            <Text style={styles.continueButtonText}>Start Game</Text>
-          </TouchableOpacity>
+          <Button handlePress={handleContinue} label="Start Game" />
         </View>
       </View>
     </Modal>
@@ -65,17 +61,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     width: "100%",
     // marginBottom: 32,
-  },
-  continueButton: {
-    paddingVertical: 16,
-    borderRadius: 999,
-    marginTop: 16,
-    backgroundColor: "#4648D4",
-  },
-  continueButtonText: {
-    fontSize: 24,
-    textAlign: "center",
-    color: "white",
   },
 });
 

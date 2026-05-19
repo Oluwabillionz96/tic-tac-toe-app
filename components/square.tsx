@@ -6,12 +6,14 @@ const Square = ({
   handlePress,
   winValues,
   gameOver,
+  disabled,
 }: {
   value: "X" | "O" | null;
   handlePress: () => void;
   winValues?: number[];
   index: number;
   gameOver?: boolean;
+  disabled: boolean;
 }) => {
   const backgroundColor = winValues?.includes(index) ? "red" : "transparent";
   return (
@@ -25,6 +27,7 @@ const Square = ({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor,
+        opacity: disabled ? 0.5 : 1,
       }}
       onPress={handlePress}
       disabled={gameOver || winValues !== undefined}
