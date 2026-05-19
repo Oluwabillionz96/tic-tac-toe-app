@@ -1,5 +1,7 @@
+import { GameContext } from "@/context/game-context";
+import useGameContext from "@/hooks/use-game-context";
 import { GameLevel } from "@/libs/types";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useContext } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 
 const levelData: { label: string; value: GameLevel }[] = [
@@ -14,13 +16,11 @@ const levelData: { label: string; value: GameLevel }[] = [
   },
 ];
 
-const LevelList = ({
-  setIsEasy,
-  isEasy,
-}: {
-  setIsEasy: Dispatch<SetStateAction<GameLevel>>;
-  isEasy: GameLevel;
-}) => {
+const LevelList = () => {
+  const {
+    state: { gameLevel },
+    stateSetter: { setGameLevel },
+  } = useGameContext();
   return (
     <View style={{ gap: 8 }}>
       <Text
@@ -48,7 +48,7 @@ const LevelList = ({
               padding: 10,
               flex: 1,
               alignItems: "center",
-              ...(item.value === isEasy
+              ...(item.value === gameLevel
                 ? {
                     backgroundColor: "#4648D4",
                     borderRadius: 999,
@@ -56,11 +56,11 @@ const LevelList = ({
                 : {}),
             }}
             onPress={() => {
-              setIsEasy(item.value);
+              setGameLevel(item.value);
             }}
           >
             <Text
-              style={{ color: item.value === isEasy ? "white" : "#464554" }}
+              style={{ color: item.value === gameLevel ? "white" : "#464554" }}
             >
               {item.label}
             </Text>

@@ -1,15 +1,12 @@
 import { View } from "react-native";
 import React from "react";
 import ScoreCard from "./score-card";
-import { Scores } from "@/libs/types";
+import useGameContext from "@/hooks/use-game-context";
 
-const ScoreRow = ({
-  isPlayerX,
-  scoresValue,
-}: {
-  isPlayerX: boolean;
-  scoresValue: Scores;
-}) => {
+const ScoreRow = () => {
+  const {
+    state: { scores: scoresValue, isPlayerX },
+  } = useGameContext();
   const scores = [
     {
       label: `You ( ${isPlayerX ? "X" : "O"} )`,

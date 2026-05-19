@@ -1,22 +1,13 @@
 import { View } from "react-native";
 import Square from "./square";
 import { Dispatch, SetStateAction } from "react";
+import useGameContext from "@/hooks/use-game-context";
 
-const Board = ({
-  winValues,
-  board,
-  isPlayersTurn,
-  setBoard,
-  setIsPlayersTurn,
-  isPlayerX,
-}: {
-  winValues?: number[];
-  board: ("X" | "O" | null)[];
-  isPlayersTurn: boolean;
-  setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>;
-  setIsPlayersTurn: Dispatch<SetStateAction<boolean>>;
-  isPlayerX: boolean | "random";
-}) => {
+const Board = () => {
+  const {
+    state: { winValues, board, isPlayersTurn, isPlayerX },
+    stateSetter: { setBoard, setIsPlayersTurn },
+  } = useGameContext();
   const gameOver = winValues !== undefined || board.every((value) => value);
 
   return (

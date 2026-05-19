@@ -16,7 +16,7 @@ const useGame = () => {
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
   const draw = winValues === undefined && board.every((value) => value);
   const [isgameOn, setIsgameOn] = useState(false);
-  const [gameLevel, SetGameLevel] = useState<GameLevel>("medium");
+  const [gameLevel, setGameLevel] = useState<GameLevel>("medium");
   const gameOver = winValues !== undefined || draw;
   const [scores, setScores] = useState<Scores>({
     player: 0,
@@ -27,7 +27,7 @@ const useGame = () => {
   useEffect(() => {
     getPlayerChoice(setIsPlayerX);
     getScores(setScores);
-    getLevel(SetGameLevel);
+    getLevel(setGameLevel);
   }, []);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const useGame = () => {
       setIsgameOn,
       setScores,
       setWinValues,
-      SetGameLevel,
+      setGameLevel,
     },
     draw,
     getPlayerChoice,

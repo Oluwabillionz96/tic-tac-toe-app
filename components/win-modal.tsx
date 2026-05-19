@@ -6,21 +6,30 @@ import {
 } from "@expo/vector-icons";
 import Button from "./button";
 import { router } from "expo-router";
+import useGameContext from "@/hooks/use-game-context";
+import { getPlayerChoice } from "@/libs/utils";
 
-const WinModal = ({
-  winValues,
-  playerWins,
-  draw,
-  handlePress,
-}: {
-  winValues?: number[];
-  playerWins: boolean;
-  draw: boolean;
-  handlePress: () => void;
-}) => {
+const WinModal = () => {
+  const {
+    state: { winValues, board, isPlayerX },
+    draw,
+    stateSetter: { setBoard, setIsgameOn, setWinValues, setIsPlayerX },
+  } = useGameContext();
+
+  function reset() {
+    setBoard(Array(9).fill(null));
+    setIsgameOn(false);
+    getPlayerChoice(setIsPlayerX);
+    setWinValues(undefined);
+  }
+
+  const winner = winValues && board[winValues[0]];
+  const playerValue = isPlayerX ? "X" : "O";
+  const playerWins = winner === playerValue;
+
   return (
     <Modal
-      visible={(winValues && winValues?.length > 0) || draw || true}
+      visible={(winValues && winValues?.length > 0) || draw}
       animationType="fade"
       transparent
     >
@@ -89,9 +98,10 @@ const WinModal = ({
                 : ""}
             !
           </Text>
-          <Button handlePress={handlePress} label="Play Again" />
+          <Button handlePress={reset} label="Play Again" />
           <Button
             handlePress={() => {
+              reset();
               router.push("/");
             }}
             label="Home"

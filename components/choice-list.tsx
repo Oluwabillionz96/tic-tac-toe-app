@@ -4,6 +4,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Dispatch, SetStateAction } from "react";
 import { FlatList } from "react-native";
 import SymbolCard from "./symbol-card";
+import useGameContext from "@/hooks/use-game-context";
 
 type SetIsPlayerX = Dispatch<SetStateAction<boolean | "random">>;
 
@@ -37,13 +38,11 @@ const playerChoices: {
   },
 ];
 
-const ChoiceList = ({
-  setIsPlayerX,
-  isPlayerX,
-}: {
-  setIsPlayerX: SetIsPlayerX;
-  isPlayerX: boolean | "random";
-}) => {
+const ChoiceList = () => {
+  const {
+    state: { isPlayerX },
+    stateSetter: { setIsPlayerX },
+  } = useGameContext();
   return (
     <FlatList
       data={playerChoices}

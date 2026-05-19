@@ -1,17 +1,36 @@
-import { View, Text, Modal, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Modal, StyleSheet } from "react-native";
 import Button from "./button";
+import useGameContext from "@/hooks/use-game-context";
+import { saveLocalData } from "@/libs/utils";
+import { usePathname } from "expo-router";
 
-const PlayerChoiceModal = ({
-  handleContinue,
-  isVisible,
-  children,
-}: {
-  handleContinue: () => void;
-  isVisible: boolean;
-  children: React.ReactNode;
-}) => {
+const PlayerChoiceModal = ({ children }: { children: React.ReactNode }) => {
+  const {
+    state: { isgameOn, isPlayerX, gameLevel },
+    stateSetter: { setIsPlayerX, setIsPlayersTurn, setIsgameOn },
+  } = useGameContext();
+  const pathname = usePathname();
+  const handleContinue = () => {
+    setIsPlayerX((value) => {
+      if (value === "random") {
+        saveLocalData("playerChoice", JSON.stringify("random"));
+        return Math.floor(Math.random() * 2) === 1;
+      } else {
+        saveLocalData("playerChoice", JSON.stringify(value));
+        return value;
+      }
+    });
+    setIsPlayersTurn(isPlayerX === true);
+    saveLocalData("level", JSON.stringify(gameLevel));
+    setIsgameOn(true);
+  };
+
+  if (pathname !== "/play") {
+    return null;
+  }
+
   return (
-    <Modal animationType="fade" transparent visible={isVisible}>
+    <Modal animationType="fade" transparent visible={!isgameOn}>
       {/* Semi-transparent backdrop - works with Expo Go */}
       <View style={styles.backdrop}>
         <View style={styles.modalContent}>

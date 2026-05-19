@@ -1,8 +1,12 @@
 import { Text, View } from "react-native";
 import React from "react";
 import Entypo from "@expo/vector-icons/Entypo";
+import useGameContext from "@/hooks/use-game-context";
 
-const Indicator = ({ isPlayersTurn }: { isPlayersTurn: boolean }) => {
+const Indicator = () => {
+  const {
+    state: { isPlayersTurn },
+  } = useGameContext();
   return (
     <View
       style={{
