@@ -1,8 +1,9 @@
-import { View, Text, Modal, StyleSheet } from "react-native";
+import { View, Text, Modal, StyleSheet, TouchableOpacity } from "react-native";
 import Button from "./button";
 import useGameContext from "@/hooks/use-game-context";
 import { saveLocalData } from "@/libs/utils";
-import { usePathname } from "expo-router";
+import { usePathname, router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 
 const PlayerChoiceModal = ({ children }: { children: React.ReactNode }) => {
   const {
@@ -36,6 +37,14 @@ const PlayerChoiceModal = ({ children }: { children: React.ReactNode }) => {
         <View style={styles.modalContent}>
           <View style={styles.header}>
             <Text style={styles.headerText}>Choose Your side</Text>
+            <TouchableOpacity
+              onPress={() => {
+                setIsgameOn(false);
+                router.replace("/");
+              }}
+            >
+              <Ionicons name="close" size={24} color="black" />
+            </TouchableOpacity>
           </View>
           {children}
           <Button handlePress={handleContinue} label="Start Game" />
@@ -70,7 +79,6 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
-
     width: "100%",
     alignItems: "center",
   },
