@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import Square from "./square";
-import { Dispatch, SetStateAction } from "react";
 import useGameContext from "@/hooks/use-game-context";
 
 const Board = () => {

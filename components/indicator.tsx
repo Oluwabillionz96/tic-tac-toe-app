@@ -5,8 +5,10 @@ import useGameContext from "@/hooks/use-game-context";
 
 const Indicator = () => {
   const {
-    state: { isPlayersTurn },
+    state: { isPlayersTurn, winValues, board },
   } = useGameContext();
+
+  const gameOver = winValues !== undefined || board.every((value) => value);
   return (
     <View
       style={{
@@ -28,7 +30,11 @@ const Indicator = () => {
           color: "#4648D4",
         }}
       >
-        {isPlayersTurn ? "Your Turn" : "Computer's turn"}
+        {gameOver
+          ? "Game Over"
+          : isPlayersTurn
+            ? "Your Turn"
+            : "Computer's turn"}
       </Text>
     </View>
   );

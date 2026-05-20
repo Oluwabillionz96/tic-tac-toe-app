@@ -8,6 +8,7 @@ import Button from "./button";
 import { router } from "expo-router";
 import useGameContext from "@/hooks/use-game-context";
 import { getPlayerChoice } from "@/libs/utils";
+import { useEffect, useState } from "react";
 
 const WinModal = () => {
   const {
@@ -21,18 +22,27 @@ const WinModal = () => {
     setIsgameOn(false);
     getPlayerChoice(setIsPlayerX);
     setWinValues(undefined);
+    setShowModal(false);
   }
 
   const winner = winValues && board[winValues[0]];
   const playerValue = isPlayerX ? "X" : "O";
   const playerWins = winner === playerValue;
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    if ((winValues && winValues?.length > 0) || draw) {
+      timer = setTimeout(() => {
+        setShowModal(true);
+      }, 1500);
+    }
+
+    return () => clearTimeout(timer);
+  });
 
   return (
-    <Modal
-      visible={(winValues && winValues?.length > 0) || draw}
-      animationType="fade"
-      transparent
-    >
+    <Modal visible={showModal} animationType="slide" transparent>
       <View
         style={{
           flex: 1,
@@ -54,7 +64,7 @@ const WinModal = () => {
             shadowOpacity: 0,
             shadowRadius: 4,
             elevation: 5,
-            gap: 32,
+            gap: 18,
           }}
         >
           <View
