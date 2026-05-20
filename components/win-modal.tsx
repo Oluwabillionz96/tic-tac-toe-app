@@ -7,23 +7,13 @@ import {
 import Button from "./button";
 import { router } from "expo-router";
 import useGameContext from "@/hooks/use-game-context";
-import { getPlayerChoice } from "@/libs/utils";
 import { useEffect, useState } from "react";
 
-const WinModal = () => {
+const WinModal = ({ reset }: { reset: () => void }) => {
   const {
     state: { winValues, board, isPlayerX },
     draw,
-    stateSetter: { setBoard, setIsgameOn, setWinValues, setIsPlayerX },
   } = useGameContext();
-
-  function reset() {
-    setBoard(Array(9).fill(null));
-    setIsgameOn(false);
-    getPlayerChoice(setIsPlayerX);
-    setWinValues(undefined);
-    setShowModal(false);
-  }
 
   const winner = winValues && board[winValues[0]];
   const playerValue = isPlayerX ? "X" : "O";
@@ -108,10 +98,17 @@ const WinModal = () => {
                 : ""}
             !
           </Text>
-          <Button handlePress={reset} label="Play Again" />
           <Button
             handlePress={() => {
               reset();
+              setShowModal(false);
+            }}
+            label="Play Again"
+          />
+          <Button
+            handlePress={() => {
+              reset();
+              setShowModal(false);
               router.push("/");
             }}
             label="Home"
