@@ -1,6 +1,6 @@
-import { View } from "react-native";
 import Square from "./square";
 import useGameContext from "@/hooks/use-game-context";
+import { FlatList } from "react-native";
 
 const Board = () => {
   const {
@@ -10,14 +10,18 @@ const Board = () => {
   const gameOver = winValues !== undefined || board.every((value) => value);
 
   return (
-    <View
-      style={{
-        flexDirection: "row",
-        flexWrap: "wrap",
+    <FlatList
+      data={board}
+      numColumns={3}
+      contentContainerStyle={{
         width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 16,
+        backgroundColor: "rgba(255,255,255,1)",
+        borderRadius: 24,
       }}
-    >
-      {board.map((item, index) => (
+      renderItem={({ item, index }) => (
         <Square
           value={item}
           handlePress={() => {
@@ -40,8 +44,8 @@ const Board = () => {
           gameOver={gameOver}
           key={index}
         />
-      ))}
-    </View>
+      )}
+    />
   );
 };
 

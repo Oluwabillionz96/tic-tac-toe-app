@@ -19,11 +19,15 @@ const Square = ({
   return (
     <TouchableOpacity
       style={{
-        borderWidth: 1,
+        borderWidth: index % 2 === 1 ? 1 : 0,
+        ...(index === 1 && { borderTopWidth: 0 }),
+        ...(index === 3 && { borderLeftWidth: 0 }),
+        ...(index === 5 && { borderRightWidth: 0 }),
+        ...(index === 7 && { borderBottomWidth: 0 }),
         borderStyle: "solid",
-        borderColor: "red",
-        width: "33.3%",
-        height: 100,
+        borderColor: "rgba(199,196,215, 0.3)",
+        width: 91,
+        height: 102,
         alignItems: "center",
         justifyContent: "center",
         backgroundColor,
