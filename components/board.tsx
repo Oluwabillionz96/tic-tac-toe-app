@@ -33,15 +33,10 @@ const Board = () => {
 
                 setBoard(newBoard);
                 setIsPlayersTurn(!isPlayersTurn);
-              } else if (board[index]) {
-                alert("Square already taken!");
               }
             }
           }}
-          disabled={!isPlayersTurn}
           index={index}
-          winValues={winValues}
-          gameOver={gameOver}
           key={index}
         />
       )}

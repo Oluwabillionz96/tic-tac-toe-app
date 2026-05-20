@@ -1,3 +1,4 @@
+import useGameContext from "@/hooks/use-game-context";
 import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TouchableOpacity } from "react-native";
 
@@ -7,18 +8,23 @@ const Square = ({
   index,
   value,
   handlePress,
-  winValues,
-  gameOver,
-  disabled,
 }: {
   value: "X" | "O" | null;
   handlePress: () => void;
-  winValues?: number[];
   index: number;
-  gameOver?: boolean;
-  disabled: boolean;
 }) => {
-  const backgroundColor = winValues?.includes(index) ? "red" : "transparent";
+  const {
+    state: { board, winValues },
+  } = useGameContext();
+  const isWinningSquare = winValues?.includes(index);
+  const backgroundColor = isWinningSquare
+    ? board[index] === "X"
+      ? "#4648D4"
+      : "#B90538"
+    : "transparent";
+
+  const iconColor = isWinningSquare ? "#FFFFFF" : undefined;
+
   return (
     <TouchableOpacity
       style={{
@@ -34,19 +40,21 @@ const Square = ({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor,
-        opacity: disabled ? 0.5 : 1,
       }}
       onPress={handlePress}
-      disabled={gameOver || winValues !== undefined}
     >
       {value === "X" ? (
         <MaterialCommunityIcons
           name="window-close"
           size={iconSize}
-          color="#4648D4"
+          color={iconColor || "#4648D4"}
         />
       ) : value === "O" ? (
-        <FontAwesome6 name="circle" size={iconSize} color="#B90538" />
+        <FontAwesome6
+          name="circle"
+          size={iconSize}
+          color={iconColor || "#B90538"}
+        />
       ) : null}
     </TouchableOpacity>
   );
