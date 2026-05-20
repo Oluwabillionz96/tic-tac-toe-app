@@ -1,10 +1,7 @@
 import PlayScreenHeader from "@/components/play-screen-header";
-import { AntDesign } from "@expo/vector-icons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { Link, Tabs } from "expo-router";
-import { TouchableOpacity, Text, View } from "react-native";
-
+import {Tabs } from "expo-router";
 const TabLayout = () => {
   return (
     <Tabs

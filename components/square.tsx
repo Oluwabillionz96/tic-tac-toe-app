@@ -1,4 +1,7 @@
-import { Text, TouchableOpacity } from "react-native";
+import { FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native";
+
+const iconSize = 32;
 
 const Square = ({
   index,
@@ -36,7 +39,15 @@ const Square = ({
       onPress={handlePress}
       disabled={gameOver || winValues !== undefined}
     >
-      <Text style={{ fontSize: 24 }}>{value}</Text>
+      {value === "X" ? (
+        <MaterialCommunityIcons
+          name="window-close"
+          size={iconSize}
+          color="#4648D4"
+        />
+      ) : value === "O" ? (
+        <FontAwesome6 name="circle" size={iconSize} color="#B90538" />
+      ) : null}
     </TouchableOpacity>
   );
 };
