@@ -103,17 +103,25 @@ const WinModal = ({ reset }: { reset: () => void }) => {
               reset();
               setShowModal(false);
             }}
-            label="Play Again"
-          />
+          >
+            <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>
+              Play Again
+            </Text>
+          </Button>
           <Button
             handlePress={() => {
               reset();
               setShowModal(false);
               router.push("/");
             }}
-            label="Home"
             variant="invert"
-          />
+          >
+            <Text
+              style={{ fontSize: 24, textAlign: "center", color: "#4648D4" }}
+            >
+              Home
+            </Text>
+          </Button>
         </View>
       </View>
     </Modal>

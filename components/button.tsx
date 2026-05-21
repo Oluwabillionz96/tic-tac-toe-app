@@ -1,30 +1,31 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  ViewStyle,
+} from "react-native";
 
 const Button = ({
   handlePress,
-  label,
+  children,
   variant = "default",
+  style,
 }: {
   handlePress: () => void;
-  label: string;
+  children: React.ReactNode;
   variant?: "default" | "invert";
+  style?: StyleProp<ViewStyle>;
 }) => {
   return (
     <TouchableOpacity
       style={{
         ...styles.button,
         ...(variant === "invert" ? { backgroundColor: "#DEE8FF" } : {}),
+        ...{ style },
       }}
       onPress={handlePress}
     >
-      <Text
-        style={{
-          ...styles.continueButtonText,
-          ...(variant === "invert" ? { color: "#4648D4" } : {}),
-        }}
-      >
-        {label}
-      </Text>
+      {children}
     </TouchableOpacity>
   );
 };

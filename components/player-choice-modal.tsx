@@ -47,7 +47,11 @@ const PlayerChoiceModal = ({ children }: { children: React.ReactNode }) => {
             </TouchableOpacity>
           </View>
           {children}
-          <Button handlePress={handleContinue} label="Start Game" />
+          <Button handlePress={handleContinue}>
+            <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>
+              Start Game
+            </Text>
+          </Button>
         </View>
       </View>
     </Modal>

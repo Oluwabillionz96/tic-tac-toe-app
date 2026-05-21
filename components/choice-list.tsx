@@ -1,12 +1,9 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Dispatch, SetStateAction } from "react";
 import { FlatList } from "react-native";
 import SymbolCard from "./symbol-card";
 import useGameContext from "@/hooks/use-game-context";
-
-type SetIsPlayerX = Dispatch<SetStateAction<boolean | "random">>;
 
 const iconSize = 24;
 

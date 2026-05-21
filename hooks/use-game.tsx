@@ -1,12 +1,7 @@
 import { otherPlayerAlgorithm } from "@/libs/algorithm";
-import { GameLevel, Scores } from "@/libs/types";
-import {
-  checkWin,
-  getLevel,
-  getPlayerChoice,
-  getScores,
-  updateScores,
-} from "@/libs/utils";
+import { getScores, updateScores } from "@/libs/scores";
+import { GameLevel, ScoresValues } from "@/libs/types";
+import { checkWin, getLevel, getPlayerChoice } from "@/libs/utils";
 import { useEffect, useState } from "react";
 
 const useGame = () => {
@@ -18,7 +13,7 @@ const useGame = () => {
   const [isgameOn, setIsgameOn] = useState(false);
   const [gameLevel, setGameLevel] = useState<GameLevel>("medium");
   const gameOver = winValues !== undefined || draw;
-  const [scores, setScores] = useState<Scores>({
+  const [scores, setScores] = useState<ScoresValues>({
     player: 0,
     draw: 0,
     computer: 0,
@@ -26,7 +21,7 @@ const useGame = () => {
 
   useEffect(() => {
     getPlayerChoice(setIsPlayerX);
-    getScores(setScores);
+    getScores("set", setScores);
     getLevel(setGameLevel);
   }, []);
 
@@ -60,11 +55,12 @@ const useGame = () => {
     // Update scores in the same effect after winValues is calculated
     const isDraw = board.every((value) => value) && newWinValues === undefined;
     const hasWinner = newWinValues !== undefined;
+    console.log("Ran");
 
     if (isDraw || hasWinner) {
-      updateScores(setScores, board, isPlayerX, newWinValues);
+      updateScores(setScores, board, isPlayerX, gameLevel, newWinValues);
     }
-  }, [board, isPlayerX, setScores]);
+  }, [board, isPlayerX, setScores, gameLevel]);
 
   // Update isPlayersTurn when isPlayerX changes from "random" to boolean
   useEffect(() => {

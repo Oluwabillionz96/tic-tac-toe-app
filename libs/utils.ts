@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Board, GameLevel, Scores } from "./types";
+import { Board, GameLevel} from "./types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { RelativePathString } from "expo-router";
 
@@ -86,27 +86,6 @@ export async function getPlayerChoice(
   }
 }
 
-export async function getScores(setScore: Dispatch<SetStateAction<Scores>>) {
-  const scores = await getLocalData("scores");
-  let parsedScores: Scores = { player: 0, computer: 0, draw: 0 };
-  if (scores) {
-    try {
-      const parsed = JSON.parse(scores);
-      if (
-        typeof parsed.player === "number" &&
-        typeof parsed.computer === "number" &&
-        typeof parsed.draw === "number"
-      ) {
-        parsedScores = parsed;
-      }
-    } catch (error) {
-      console.error("Error parsing player choice from localStorage:", error);
-    }
-  }
-
-  setScore(parsedScores);
-  return;
-}
 
 export async function getLevel(setLevel: Dispatch<SetStateAction<GameLevel>>) {
   const level = await getLocalData("level");
@@ -124,34 +103,4 @@ export async function getLevel(setLevel: Dispatch<SetStateAction<GameLevel>>) {
 
   setLevel(parsedLevel);
   return;
-}
-
-export async function updateScores(
-  setScores: Dispatch<SetStateAction<Scores>>,
-  board: ("X" | "O" | null)[],
-  isPlayerX: boolean | "random",
-  winValues?: number[],
-) {
-  const draw = board.every((square) => square) && winValues === undefined;
-  if (winValues === undefined && !draw) return;
-
-  setScores((prevScores) => {
-    const newScore = { ...prevScores };
-
-    if (winValues !== undefined) {
-      const winValue = board[winValues[0]];
-      const playerValue = isPlayerX ? "X" : "O";
-
-      const field: "player" | "computer" =
-        `${winValue === playerValue ? "player" : "computer"}`;
-      newScore[field] = prevScores[field] + 1;
-    }
-
-    if (winValues === undefined && draw) {
-      newScore.draw = prevScores.draw + 1;
-    }
-
-    saveLocalData("scores", JSON.stringify(newScore));
-    return newScore;
-  });
 }
