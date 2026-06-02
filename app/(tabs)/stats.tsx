@@ -4,7 +4,7 @@ import { getScores } from "@/libs/scores";
 import { Scores, ScoresValues } from "@/libs/types";
 import LifeRecord from "@/components/life-record";
 import PerformanceCard from "@/components/performance-card";
-import { getGameCounts } from "@/libs/games";
+import DetailedScores from "@/components/detailed-scores";
 
 const StatsScreen = () => {
   const [gameScores, setGameScores] = useState<Scores | null>(null);
@@ -35,6 +35,7 @@ const StatsScreen = () => {
     >
       <LifeRecord totalScores={totalScores} />
       <PerformanceCard gameScores={gameScores} />
+      <DetailedScores gameScores={gameScores} />
     </ScrollView>
   );
 };
