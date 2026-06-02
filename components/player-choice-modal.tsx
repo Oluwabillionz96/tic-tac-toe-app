@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+
     width: "100%",
     alignItems: "center",
   },
@@ -90,8 +91,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#111C2D",
     textAlign: "center",
-    width: "100%",
-    // marginBottom: 32,
   },
 });
 

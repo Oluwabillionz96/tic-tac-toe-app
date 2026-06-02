@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Board, GameLevel} from "./types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { RelativePathString } from "expo-router";
@@ -58,14 +57,20 @@ export const checkWin = (board: ("X" | "O" | null)[]) => {
 };
 
 export async function saveLocalData(key: string, value: string) {
+  if (typeof window === "undefined") return;
+  const { default: AsyncStorage } = await import("@react-native-async-storage/async-storage");
   await AsyncStorage.setItem(key, value);
 }
 
 export async function getLocalData(key: string): Promise<string | null> {
+  if (typeof window === "undefined") return null;
+  const { default: AsyncStorage } = await import("@react-native-async-storage/async-storage");
   return await AsyncStorage.getItem(key);
 }
 
 export async function reset() {
+  if (typeof window === "undefined") return;
+  const { default: AsyncStorage } = await import("@react-native-async-storage/async-storage");
   return await AsyncStorage.clear();
 }
 

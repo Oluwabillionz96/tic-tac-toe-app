@@ -13,6 +13,7 @@ const Board = () => {
     <FlatList
       data={board}
       numColumns={3}
+      scrollEnabled={false}
       contentContainerStyle={{
         width: "100%",
         justifyContent: "center",

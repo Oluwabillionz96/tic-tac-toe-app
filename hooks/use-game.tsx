@@ -55,7 +55,6 @@ const useGame = () => {
     // Update scores in the same effect after winValues is calculated
     const isDraw = board.every((value) => value) && newWinValues === undefined;
     const hasWinner = newWinValues !== undefined;
-    console.log("Ran");
 
     if (isDraw || hasWinner) {
       updateScores(setScores, board, isPlayerX, gameLevel, newWinValues);

@@ -8,6 +8,7 @@ const PlayScreenHeader = () => {
       style={{
         backgroundColor: "rgba(70, 72, 212, 0.05)",
         paddingVertical: 18,
+        paddingTop: 24,
         paddingHorizontal: 24,
       }}
     >
