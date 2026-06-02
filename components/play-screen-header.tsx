@@ -1,6 +1,6 @@
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { Link } from "expo-router";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 
 const PlayScreenHeader = () => {
   return (
@@ -41,9 +41,9 @@ const PlayScreenHeader = () => {
 
         {/* Right */}
         <View style={{ flex: 1, alignItems: "flex-end" }}>
-          <TouchableOpacity>
+          <Link href="/stats">
             <Ionicons name={"stats-chart-outline"} size={24} color="#4648D4" />
-          </TouchableOpacity>
+          </Link>
         </View>
       </View>
     </View>

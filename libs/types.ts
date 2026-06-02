@@ -12,6 +12,7 @@ export interface Counts<T> {
 
 export type Scores = Counts<ScoresValues>;
 export type Games = Counts<number>;
+export type GameCounts = Counts<number>;
 
 export type Board = ("X" | "O" | null)[];
 

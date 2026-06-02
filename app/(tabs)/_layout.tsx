@@ -1,7 +1,8 @@
 import PlayScreenHeader from "@/components/play-screen-header";
+import StatsScreenHeader from "@/components/stats-screen-header";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import {Tabs } from "expo-router";
+import { Tabs } from "expo-router";
 const TabLayout = () => {
   return (
     <Tabs
@@ -24,9 +25,7 @@ const TabLayout = () => {
       <Tabs.Screen
         name="play"
         options={{
-          header: () => (
-            <PlayScreenHeader />
-          ),
+          header: () => <PlayScreenHeader />,
           tabBarIcon: ({ color, focused }) => (
             <MaterialCommunityIcons
               name={focused ? "gamepad-variant" : "gamepad-variant-outline"}
@@ -47,6 +46,7 @@ const TabLayout = () => {
               color={color}
             />
           ),
+          header: () => <StatsScreenHeader />,
         }}
       />
       <Tabs.Screen

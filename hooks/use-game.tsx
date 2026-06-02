@@ -1,4 +1,5 @@
 import { otherPlayerAlgorithm } from "@/libs/algorithm";
+import { updateGames } from "@/libs/games";
 import { getScores, updateScores } from "@/libs/scores";
 import { GameLevel, ScoresValues } from "@/libs/types";
 import { checkWin, getLevel, getPlayerChoice } from "@/libs/utils";
@@ -58,6 +59,7 @@ const useGame = () => {
 
     if (isDraw || hasWinner) {
       updateScores(setScores, board, isPlayerX, gameLevel, newWinValues);
+      updateGames(board, gameLevel, newWinValues);
     }
   }, [board, isPlayerX, setScores, gameLevel]);
 

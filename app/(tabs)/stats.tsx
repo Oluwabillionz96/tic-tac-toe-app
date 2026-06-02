@@ -1,10 +1,19 @@
-import { View, Text } from "react-native";
+import { ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getScores } from "@/libs/scores";
 import { Scores, ScoresValues } from "@/libs/types";
+import LifeRecord from "@/components/life-record";
+import PerformanceCard from "@/components/performance-card";
+import { getGameCounts } from "@/libs/games";
 
 const StatsScreen = () => {
   const [gameScores, setGameScores] = useState<Scores | null>(null);
+  const [totalScores, setTotalScores] = useState<ScoresValues>({
+    player: 0,
+    computer: 0,
+    draw: 0,
+  });
+
   useEffect(() => {
     getScores("return").then((data) => {
       if (data) {
@@ -12,37 +21,21 @@ const StatsScreen = () => {
         return;
       }
     });
+    getScores("set", setTotalScores);
   }, []);
 
   return (
-    <View>
-      {gameScores && (
-        <>
-          {Object.keys(gameScores).map((level, levelIndex) => (
-            <View key={levelIndex}>
-              <Text>{level}</Text>
-              <View>
-                <Text>Scores</Text>
-                <View>
-                  {Object.keys(gameScores[level as keyof Scores]).map(
-                    (scores, scoreIndex) => (
-                      <Text key={scoreIndex}>
-                        {scores} :{" "}
-                        {
-                          gameScores[level as keyof Scores][
-                            scores as keyof ScoresValues
-                          ]
-                        }
-                      </Text>
-                    ),
-                  )}
-                </View>
-              </View>
-            </View>
-          ))}
-        </>
-      )}
-    </View>
+    <ScrollView
+      contentContainerStyle={{
+        paddingInline: 24,
+        paddingVertical: 16,
+        backgroundColor: "#F9F9FF",
+        gap: 16,
+      }}
+    >
+      <LifeRecord totalScores={totalScores} />
+      <PerformanceCard gameScores={gameScores} />
+    </ScrollView>
   );
 };
 
