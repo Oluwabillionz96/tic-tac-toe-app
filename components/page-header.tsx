@@ -1,9 +1,9 @@
-import { Text, View } from "react-native";
+import { View, Text } from "react-native";
 import React from "react";
 import { Link } from "expo-router";
 import { Feather } from "@expo/vector-icons";
 
-const StatsScreenHeader = () => {
+const PageHeader = ({ page }: { page: "Settings" | "Statistics" }) => {
   return (
     <View
       style={{
@@ -36,11 +36,11 @@ const StatsScreenHeader = () => {
             width: "100%",
           }}
         >
-          Statistics
+          {page}
         </Text>
       </View>
     </View>
   );
 };
 
-export default StatsScreenHeader;
+export default PageHeader;

@@ -1,5 +1,5 @@
+import PageHeader from "@/components/page-header";
 import PlayScreenHeader from "@/components/play-screen-header";
-import StatsScreenHeader from "@/components/stats-screen-header";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
@@ -46,13 +46,14 @@ const TabLayout = () => {
               color={color}
             />
           ),
-          header: () => <StatsScreenHeader />,
+          header: () => <PageHeader page="Statistics" />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: "Settings",
+          header: () => <PageHeader page="Settings" />,
           tabBarIcon: ({ focused, color }) => (
             <Ionicons
               name={focused ? "settings-sharp" : "settings-outline"}
