@@ -1,0 +1,81 @@
+import { Feather } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
+import { StyleSheet, Text, View } from "react-native";
+
+const ICON_SIZE = 20;
+
+const SYMBOLS = ["X", "O", "Random"] as const;
+
+function SymbolIcon({ symbol, color }: { symbol: string; color: string }) {
+  if (symbol === "X") {
+    return <MaterialCommunityIcons name="window-close" size={ICON_SIZE} color={color} />;
+  }
+  if (symbol === "O") {
+    return <FontAwesome6 name="circle" size={ICON_SIZE} color={color} />;
+  }
+  return <FontAwesome name="random" size={ICON_SIZE} color={color} />;
+}
+
+export default function PlayerSymbolSelector() {
+  const selected = "X";
+
+  return (
+    <View style={styles.row}>
+      <View style={styles.labelWrap}>
+        <Feather name="user" size={16} color="#4648D4" />
+        <Text style={styles.label}>Player Symbol</Text>
+      </View>
+      <View style={styles.toggle}>
+        {SYMBOLS.map((symbol) => {
+          const isSelected = symbol === selected;
+          return (
+            <View
+              key={symbol}
+              style={[
+                styles.option,
+                { backgroundColor: isSelected ? "#4648D4" : "transparent" },
+              ]}
+            >
+              <SymbolIcon
+                symbol={symbol}
+                color={isSelected ? "white" : "#C7C4D7"}
+              />
+            </View>
+          );
+        })}
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    backgroundColor: "white",
+    borderRadius: 8,
+    paddingInline: 16,
+    paddingVertical: 28,
+    alignItems: "center",
+  },
+  labelWrap: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  label: {
+    color: "#111C2D",
+    fontSize: 16,
+  },
+  toggle: {
+    flexDirection: "row",
+    backgroundColor: "#E7EEFF",
+    borderRadius: 999,
+    padding: 4,
+    gap: 4,
+  },
+  option: {
+    padding: 5,
+    borderRadius: 999,
+  },
+});
