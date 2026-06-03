@@ -1,10 +1,10 @@
-import { ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { getScores } from "@/libs/scores";
 import { Scores, ScoresValues } from "@/libs/types";
 import LifeRecord from "@/components/life-record";
 import PerformanceCard from "@/components/performance-card";
 import DetailedScores from "@/components/detailed-scores";
+import PageWrapper from "@/components/page-wrapper";
 
 const StatsScreen = () => {
   const [gameScores, setGameScores] = useState<Scores | null>(null);
@@ -25,18 +25,11 @@ const StatsScreen = () => {
   }, []);
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        paddingInline: 24,
-        paddingVertical: 16,
-        backgroundColor: "#F9F9FF",
-        gap: 16,
-      }}
-    >
+    <PageWrapper>
       <LifeRecord totalScores={totalScores} />
       <PerformanceCard gameScores={gameScores} />
       <DetailedScores gameScores={gameScores} />
-    </ScrollView>
+    </PageWrapper>
   );
 };
 

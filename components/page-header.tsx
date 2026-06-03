@@ -7,7 +7,7 @@ const PageHeader = ({ page }: { page: "Settings" | "Statistics" }) => {
   return (
     <View
       style={{
-        backgroundColor: "rgba(70, 72, 212, 0.05)",
+        backgroundColor: "#F9F9FF",
         paddingVertical: 18,
         paddingTop: 24,
         paddingHorizontal: 24,

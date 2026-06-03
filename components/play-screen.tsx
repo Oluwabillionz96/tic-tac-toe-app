@@ -10,6 +10,7 @@ import Button from "./button";
 import useGameContext from "@/hooks/use-game-context";
 import { getPlayerChoice } from "@/libs/utils";
 import { Feather } from "@expo/vector-icons";
+import PageWrapper from "./page-wrapper";
 const PlayScreen = () => {
   const {
     state: { isgameOn, winValues, board },
@@ -25,13 +26,7 @@ const PlayScreen = () => {
 
   const gameOver = winValues !== undefined || board.every((value) => value);
   return (
-    <ScrollView
-      contentContainerStyle={{
-        paddingInline: 24,
-        paddingVertical: 16,
-        gap: 24,
-      }}
-    >
+    <PageWrapper>
       <ScoreRow />
       <Indicator />
       <View style={{ gap: 16 }}>
@@ -72,7 +67,7 @@ const PlayScreen = () => {
         <ChoiceList />
         <LevelList />
       </PlayerChoiceModal>
-    </ScrollView>
+    </PageWrapper>
   );
 };
 

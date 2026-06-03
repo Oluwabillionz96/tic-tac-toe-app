@@ -1,7 +1,5 @@
-import { GameContext } from "@/context/game-context";
 import useGameContext from "@/hooks/use-game-context";
 import { GameLevel } from "@/libs/types";
-import { Dispatch, SetStateAction, useContext } from "react";
 import { Text, View, TouchableOpacity } from "react-native";
 
 const levelData: { label: string; value: GameLevel }[] = [
