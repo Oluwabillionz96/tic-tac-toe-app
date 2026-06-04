@@ -5,8 +5,11 @@ import useAppContext from "@/hooks/use-app-context";
 const GameContext = createContext<ReturnType<typeof useGame> | null>(null);
 
 const GameProvider = ({ children }: { children: ReactNode }) => {
-  const {} = useAppContext()
-  const game = useGame();
+  const {
+    stateSetters: { setIsPlayerX },
+    state: { isPlayerX },
+  } = useAppContext();
+  const game = useGame(isPlayerX, setIsPlayerX);
   return <GameContext.Provider value={game}>{children}</GameContext.Provider>;
 };
 

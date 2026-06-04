@@ -5,13 +5,10 @@ import { GameLevel, GameStatus, ScoresValues } from "@/libs/types";
 import { checkWin, getLevel, getPlayerChoice } from "@/libs/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const useGame = ({
-  isPlayerX,
-  setIsPlayerX,
-}: {
-  isPlayerX?: boolean | "random";
-  setIsPlayerX?: Dispatch<SetStateAction<boolean | "random">>;
-}) => {
+const useGame = (
+  isPlayerX: boolean | "random",
+  setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>,
+) => {
   const [board, setBoard] = useState<("X" | "O" | null)[]>(Array(9).fill(null));
   const [isPlayersTurn, setIsPlayersTurn] = useState(isPlayerX === true);
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
@@ -36,7 +33,7 @@ const useGame = ({
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [setIsPlayerX]);
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
@@ -98,6 +95,7 @@ const useGame = ({
       winValues,
       gameStatus,
       scores,
+      isPlayerX,
       gameLevel,
     },
     stateSetter: {
@@ -105,6 +103,7 @@ const useGame = ({
       setIsPlayersTurn,
       setGameStatus,
       setScores,
+      setIsPlayerX,
       setWinValues,
       setGameLevel,
     },
