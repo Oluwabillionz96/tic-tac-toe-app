@@ -1,4 +1,5 @@
 import useAppContext from "@/hooks/use-app-context";
+import { notify, saveLocalData, toast } from "@/libs/utils";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -6,7 +7,7 @@ const LEVELS = ["easy", "medium", "hard"] as const;
 
 export default function DifficultySelector() {
   const {
-    state: { gameLevel },
+    state: { gameLevel, gameStatus },
     stateSetters: { setGameLevel },
   } = useAppContext();
   // const
@@ -28,6 +29,15 @@ export default function DifficultySelector() {
                     backgroundColor: "rgba(70,72,212,0.05)",
                   }
                 : {}),
+            }}
+            onPress={() => {
+              if (gameStatus === "paused") {
+                notify("Finish the ongoing game first to change difficulty");
+                return;
+              }
+
+              setGameLevel(level);
+              saveLocalData("level", JSON.stringify(level));
             }}
           >
             <Text style={styles.buttonLabel}>{level}</Text>

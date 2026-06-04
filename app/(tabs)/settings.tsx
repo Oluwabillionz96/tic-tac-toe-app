@@ -6,7 +6,6 @@ import DifficultySelector from "@/components/difficulty-selector";
 import { StyleSheet, Text, View } from "react-native";
 import Button from "@/components/button";
 import { Feather } from "@expo/vector-icons";
-import { GameLevel } from "@/libs/types";
 
 const SettingsScreen = () => {
   return (

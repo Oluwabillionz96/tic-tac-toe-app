@@ -35,6 +35,11 @@ export function toast(message: string) {
   });
 }
 
+export function notify(message: string) {
+  toast(message);
+  playSound(require("@/assets/sounds/notification.wav"));
+}
+
 export const updatePlayerChoice = (
   setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>,
   newValue?: boolean | "random",
@@ -42,8 +47,7 @@ export const updatePlayerChoice = (
 ) => {
   if (newValue !== undefined) {
     if (isActiveGame) {
-      playSound(require("@/assets/sounds/notification.wav"));
-      toast("Finish the ongoing game first to change symbol");
+      notify("Finish the ongoing game first to change symbol");
       return;
     }
     setIsPlayerX(newValue);
