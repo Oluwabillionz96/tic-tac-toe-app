@@ -26,16 +26,16 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
     saveLocalData("level", JSON.stringify(gameLevel));
     setGameStatus("ongoing");
   };
-  const [showModal, setShowModal] = useState(true);
+  // const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
     if (pathname !== "/play") {
-      setShowModal(false);
+      // setShowModal(false);
       if (gameStatus === "ongoing") {
         setGameStatus("paused");
       }
-    } else {
-      setShowModal(true);
+    // } else {
+    //   // setShowModal(true);
     }
   }, [pathname, gameStatus, setGameStatus]);
 
@@ -43,7 +43,10 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
     <Modal
       animationType="fade"
       transparent
-      visible={(gameStatus === "none" || gameStatus === "paused") && showModal}
+      visible={
+        (gameStatus === "none" || gameStatus === "paused") &&
+        pathname === "/play"
+      }
     >
       {/* Semi-transparent backdrop - works with Expo Go */}
       <View style={styles.backdrop}>

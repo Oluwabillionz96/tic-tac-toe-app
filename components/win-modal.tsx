@@ -7,7 +7,7 @@ import {
 import Button from "./button";
 import { router } from "expo-router";
 import useGameContext from "@/hooks/use-game-context";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 const WinModal = ({ reset }: { reset: () => void }) => {
   const {
