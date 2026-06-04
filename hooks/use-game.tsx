@@ -3,11 +3,16 @@ import { updateGames } from "@/libs/games";
 import { getScores, updateScores } from "@/libs/scores";
 import { GameLevel, GameStatus, ScoresValues } from "@/libs/types";
 import { checkWin, getLevel, getPlayerChoice } from "@/libs/utils";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const useGame = () => {
+const useGame = ({
+  isPlayerX,
+  setIsPlayerX,
+}: {
+  isPlayerX?: boolean | "random";
+  setIsPlayerX?: Dispatch<SetStateAction<boolean | "random">>;
+}) => {
   const [board, setBoard] = useState<("X" | "O" | null)[]>(Array(9).fill(null));
-  const [isPlayerX, setIsPlayerX] = useState<boolean | "random">("random");
   const [isPlayersTurn, setIsPlayersTurn] = useState(isPlayerX === true);
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
   const draw = winValues === undefined && board.every((value) => value);
@@ -91,7 +96,6 @@ const useGame = () => {
       board,
       isPlayersTurn,
       winValues,
-      isPlayerX,
       gameStatus,
       scores,
       gameLevel,
@@ -99,7 +103,6 @@ const useGame = () => {
     stateSetter: {
       setBoard,
       setIsPlayersTurn,
-      setIsPlayerX,
       setGameStatus,
       setScores,
       setWinValues,

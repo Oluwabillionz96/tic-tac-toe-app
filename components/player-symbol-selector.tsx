@@ -33,7 +33,6 @@ export default function PlayerSymbolSelector({
 }) {
   const selectedSymbol =
     playerChoice === true ? "X" : playerChoice === "random" ? "Random" : "O";
-  console.log({ selectedSymbol });
   return (
     <View style={styles.row}>
       <View style={styles.labelWrap}>

@@ -24,7 +24,6 @@ const Button = ({
     ...propstyles,
   };
 
-  console.log({ buttonStyles });
   return (
     <TouchableOpacity style={buttonStyles} onPress={handlePress}>
       {children}
