@@ -4,15 +4,28 @@ import useGameContext from "@/hooks/use-game-context";
 import { saveLocalData } from "@/libs/utils";
 import { usePathname, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
   const {
     state: { gameStatus, isPlayerX, gameLevel },
     stateSetter: { setIsPlayerX, setIsPlayersTurn, setGameStatus },
   } = useGameContext();
+
+  const statusRef = useRef(gameStatus);
+  if (gameStatus !== "ongoing") {
+    statusRef.current = gameStatus;
+  }
+
+  const displayStatus = statusRef.current;
+
   const pathname = usePathname();
   const handleContinue: () => void = () => {
+    if (gameStatus === "paused") {
+      setGameStatus("ongoing");
+      return;
+    }
+
     setIsPlayerX((value) => {
       if (value === "random") {
         saveLocalData("playerChoice", JSON.stringify("random"));
@@ -63,13 +76,13 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
             </TouchableOpacity>
           </View>
           <>
-            {gameStatus === "none"
+            {displayStatus === "none"
               ? children
-              : gameStatus === "paused" && <Text>Game Paused</Text>}
+              : displayStatus === "paused" && <Text>Game Paused</Text>}
           </>
           <Button handlePress={handleContinue}>
             <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>
-              Start Game
+              {displayStatus === "paused" ? "Continue" : "Start Game"}
             </Text>
           </Button>
         </View>
