@@ -9,16 +9,14 @@ import { Feather } from "@expo/vector-icons";
 import { GameLevel } from "@/libs/types";
 
 const SettingsScreen = () => {
-  const [playerChoice, setPlayerChoice] = useState<boolean | "random">(
-    "random",
-  );
+  // const [playerChoice, setPlayerChoice] = useState<boolean | "random">(
+  //   "random",
+  // );
   const [gameLevel, setGameLevel] = useState<GameLevel>("medium");
   useEffect(() => {
-    // reset();
     let mounted = true;
 
     if (mounted) {
-      getPlayerChoice(setPlayerChoice);
       getLevel(setGameLevel);
     }
 
@@ -31,8 +29,8 @@ const SettingsScreen = () => {
       <View style={styles.section}>
         <Text style={styles.heading}>Game Preferences</Text>
         <View style={styles.cardGroup}>
-          <PlayerSymbolSelector playerChoice={playerChoice} />
-          <DifficultySelector gameLevel={gameLevel}/>
+          <PlayerSymbolSelector />
+          <DifficultySelector gameLevel={gameLevel} />
         </View>
       </View>
       <View style={{ gap: 16 }}>

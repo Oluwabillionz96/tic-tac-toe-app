@@ -1,7 +1,7 @@
 import { View, Text, Modal, StyleSheet, TouchableOpacity } from "react-native";
 import Button from "./button";
 import useGameContext from "@/hooks/use-game-context";
-import { saveLocalData } from "@/libs/utils";
+import { saveLocalData, updatePlayerChoice } from "@/libs/utils";
 import { usePathname, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useRef } from "react";
@@ -26,15 +26,7 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
       return;
     }
 
-    setIsPlayerX((value) => {
-      if (value === "random") {
-        saveLocalData("playerChoice", JSON.stringify("random"));
-        return Math.floor(Math.random() * 2) === 1;
-      } else {
-        saveLocalData("playerChoice", JSON.stringify(value));
-        return value;
-      }
-    });
+    updatePlayerChoice(setIsPlayerX);
     setIsPlayersTurn(isPlayerX === true);
     saveLocalData("level", JSON.stringify(gameLevel));
     setGameStatus("ongoing");

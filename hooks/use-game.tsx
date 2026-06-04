@@ -8,12 +8,13 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 const useGame = (
   isPlayerX: boolean | "random",
   setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>,
+  gameStatus: GameStatus,
+  setGameStatus: Dispatch<SetStateAction<GameStatus>>,
 ) => {
   const [board, setBoard] = useState<("X" | "O" | null)[]>(Array(9).fill(null));
   const [isPlayersTurn, setIsPlayersTurn] = useState(isPlayerX === true);
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
   const draw = winValues === undefined && board.every((value) => value);
-  const [gameStatus, setGameStatus] = useState<GameStatus>("none");
   const [gameLevel, setGameLevel] = useState<GameLevel>("medium");
   const [scores, setScores] = useState<ScoresValues>({
     player: 0,
@@ -25,7 +26,6 @@ const useGame = (
     let isMounted = true;
 
     if (isMounted) {
-      getPlayerChoice(setIsPlayerX);
       getScores("set", setScores);
       getLevel(setGameLevel);
     }
@@ -33,7 +33,7 @@ const useGame = (
     return () => {
       isMounted = false;
     };
-  }, [setIsPlayerX]);
+  }, []);
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;

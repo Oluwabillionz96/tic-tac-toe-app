@@ -1,10 +1,12 @@
+import useAppContext from "@/hooks/use-app-context";
+import { updatePlayerChoice } from "@/libs/utils";
 import {
   FontAwesome,
   FontAwesome6,
   MaterialCommunityIcons,
   Feather,
 } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const ICON_SIZE = 20;
 
@@ -26,11 +28,11 @@ function SymbolIcon({ symbol, color }: { symbol: string; color: string }) {
   return <FontAwesome name="random" size={ICON_SIZE} color={color} />;
 }
 
-export default function PlayerSymbolSelector({
-  playerChoice,
-}: {
-  playerChoice: boolean | "random";
-}) {
+export default function PlayerSymbolSelector() {
+  const {
+    state: { isPlayerX: playerChoice, gameStatus },
+    stateSetters: { setIsPlayerX },
+  } = useAppContext();
   const selectedSymbol =
     playerChoice === true ? "X" : playerChoice === "random" ? "Random" : "O";
   return (
@@ -43,18 +45,25 @@ export default function PlayerSymbolSelector({
         {SYMBOLS.map((symbol) => {
           const isSelected = symbol === selectedSymbol;
           return (
-            <View
+            <TouchableOpacity
               key={symbol}
               style={[
                 styles.option,
                 { backgroundColor: isSelected ? "#4648D4" : "transparent" },
               ]}
+              onPress={() => {
+                updatePlayerChoice(
+                  setIsPlayerX,
+                  symbol === "X" ? true : symbol === "O" ? false : "random",
+                  gameStatus === "paused",
+                );
+              }}
             >
               <SymbolIcon
                 symbol={symbol}
                 color={isSelected ? "white" : "#C7C4D7"}
               />
-            </View>
+            </TouchableOpacity>
           );
         })}
       </View>

@@ -14,6 +14,30 @@ export const wins = [
   [6, 7, 8],
 ];
 
+export const updatePlayerChoice = (
+  setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>,
+  newValue?: boolean | "random",
+  isActiveGame?: boolean,
+) => {
+  if (newValue !== undefined) {
+    if (!isActiveGame) {
+      setIsPlayerX(newValue);
+    }
+    saveLocalData("playerChoice", JSON.stringify(newValue));
+    return;
+  }
+
+  setIsPlayerX((currentValue) => {
+    if (currentValue === "random") {
+      saveLocalData("playerChoice", JSON.stringify("random"));
+      return Math.floor(Math.random() * 2) === 1;
+    } else {
+      saveLocalData("playerChoice", JSON.stringify(currentValue));
+      return currentValue;
+    }
+  });
+};
+
 export const navigationLinks: {
   label: string;
   iconName: keyof typeof Ionicons.glyphMap;
@@ -111,4 +135,3 @@ export async function getLevel(setLevel: Dispatch<SetStateAction<GameLevel>>) {
   setLevel(parsedLevel);
   return;
 }
-
