@@ -1,14 +1,14 @@
-import { GameLevel } from "@/libs/types";
+import useAppContext from "@/hooks/use-app-context";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const LEVELS = ["easy", "medium", "hard"] as const;
 
-export default function DifficultySelector({
-  gameLevel,
-}: {
-  gameLevel: GameLevel;
-}) {
+export default function DifficultySelector() {
+  const {
+    state: { gameLevel },
+    stateSetters: { setGameLevel },
+  } = useAppContext();
   // const
   return (
     <View style={styles.card}>

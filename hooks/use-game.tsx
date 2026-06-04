@@ -2,7 +2,7 @@ import { otherPlayerAlgorithm } from "@/libs/algorithm";
 import { updateGames } from "@/libs/games";
 import { getScores, updateScores } from "@/libs/scores";
 import { GameLevel, GameStatus, ScoresValues } from "@/libs/types";
-import { checkWin, getLevel, getPlayerChoice } from "@/libs/utils";
+import { checkWin, getPlayerChoice } from "@/libs/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const useGame = (
@@ -10,12 +10,13 @@ const useGame = (
   setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>,
   gameStatus: GameStatus,
   setGameStatus: Dispatch<SetStateAction<GameStatus>>,
+  gameLevel: GameLevel,
+  setGameLevel: Dispatch<SetStateAction<GameLevel>>,
 ) => {
   const [board, setBoard] = useState<("X" | "O" | null)[]>(Array(9).fill(null));
   const [isPlayersTurn, setIsPlayersTurn] = useState(isPlayerX === true);
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
   const draw = winValues === undefined && board.every((value) => value);
-  const [gameLevel, setGameLevel] = useState<GameLevel>("medium");
   const [scores, setScores] = useState<ScoresValues>({
     player: 0,
     draw: 0,
@@ -27,7 +28,6 @@ const useGame = (
 
     if (isMounted) {
       getScores("set", setScores);
-      getLevel(setGameLevel);
     }
 
     return () => {
@@ -79,7 +79,7 @@ const useGame = (
     return () => {
       isMounted = false;
     };
-  }, [board, isPlayerX, setScores, gameLevel]);
+  }, [board, isPlayerX, setScores, setGameStatus, gameLevel]);
 
   // Update isPlayersTurn when isPlayerX changes from "random" to boolean
   useEffect(() => {

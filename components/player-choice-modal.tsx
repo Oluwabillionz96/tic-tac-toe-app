@@ -1,9 +1,10 @@
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Modal, StyleSheet } from "react-native";
 import Button from "./button";
+import ModalHeader from "./modal-header";
+import PausedView from "./paused-view";
 import useGameContext from "@/hooks/use-game-context";
 import { saveLocalData, updatePlayerChoice } from "@/libs/utils";
-import { usePathname, router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import { usePathname } from "expo-router";
 import { useEffect, useRef } from "react";
 
 const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
@@ -18,9 +19,9 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
   }
 
   const displayStatus = statusRef.current;
-
   const pathname = usePathname();
-  const handleContinue: () => void = () => {
+
+  const handleContinue = () => {
     if (gameStatus === "paused") {
       setGameStatus("ongoing");
       return;
@@ -31,16 +32,10 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
     saveLocalData("level", JSON.stringify(gameLevel));
     setGameStatus("ongoing");
   };
-  // const [showModal, setShowModal] = useState(true);
 
   useEffect(() => {
-    if (pathname !== "/play") {
-      // setShowModal(false);
-      if (gameStatus === "ongoing") {
-        setGameStatus("paused");
-      }
-      // } else {
-      //   // setShowModal(true);
+    if (pathname !== "/play" && gameStatus === "ongoing") {
+      setGameStatus("paused");
     }
   }, [pathname, gameStatus, setGameStatus]);
 
@@ -53,54 +48,20 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
         pathname === "/play"
       }
     >
-      {/* Semi-transparent backdrop - works with Expo Go */}
       <View style={styles.backdrop}>
         <View style={styles.modalContent}>
-          <View style={styles.header}>
-            <Text style={styles.headerText}>
-              {displayStatus === "paused" ? "Game Paused" : "Choose Your Side"}
-            </Text>
-            <TouchableOpacity
-              onPress={() => {
-                router.replace("/");
-              }}
-            >
-              <Ionicons name="close" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+          <ModalHeader
+            title={displayStatus === "paused" ? "Game Paused" : "Choose Your Side"}
+          />
           <View style={styles.body}>
             {displayStatus === "none" ? (
               children
             ) : (
-              <View style={styles.pausedContainer}>
-                <View style={styles.pauseIconWrap}>
-                  <Ionicons name="pause-circle" size={64} color="#4648D4" />
-                </View>
-                <Text style={styles.pausedTitle}>Game Paused</Text>
-                <Text style={styles.pausedSubtitle}>
-                  Take a break — your game is saved
-                </Text>
-                <View style={styles.navLinks}>
-                  <TouchableOpacity
-                    style={styles.navLink}
-                    onPress={() => router.push("/(tabs)/stats")}
-                  >
-                    <Ionicons name="stats-chart-outline" size={20} color="#4648D4" />
-                    <Text style={styles.navLinkText}>Statistics</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.navLink}
-                    onPress={() => router.push("/(tabs)/settings")}
-                  >
-                    <Ionicons name="settings-outline" size={20} color="#4648D4" />
-                    <Text style={styles.navLinkText}>Settings</Text>
-                  </TouchableOpacity>
-                </View>
-              </View>
+              <PausedView />
             )}
           </View>
           <Button handlePress={handleContinue}>
-            <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>
+            <Text style={styles.buttonText}>
               {displayStatus === "paused" ? "Continue" : "Start Game"}
             </Text>
           </Button>
@@ -115,7 +76,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent dark overlay
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     padding: 24,
   },
   modalContent: {
@@ -130,66 +91,14 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     gap: 32,
-    // height: "70%",
-  },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-
-    width: "100%",
-    alignItems: "center",
-  },
-  headerText: {
-    fontSize: 16,
-    color: "#111C2D",
-    textAlign: "center",
-    fontWeight: "600",
   },
   body: {
     alignItems: "center",
   },
-  pausedContainer: {
-    alignItems: "center",
-    gap: 12,
-    paddingVertical: 8,
-  },
-  pauseIconWrap: {
-    width: 88,
-    height: 88,
-    borderRadius: 44,
-    backgroundColor: "#EEF2FF",
-    justifyContent: "center",
-    alignItems: "center",
-    marginBottom: 4,
-  },
-  pausedTitle: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#111C2D",
-  },
-  pausedSubtitle: {
-    fontSize: 14,
-    color: "#7B7F8E",
+  buttonText: {
+    fontSize: 24,
     textAlign: "center",
-  },
-  navLinks: {
-    flexDirection: "row",
-    gap: 16,
-    marginTop: 8,
-  },
-  navLink: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingVertical: 10,
-    paddingHorizontal: 16,
-    borderRadius: 999,
-    backgroundColor: "#EEF2FF",
-  },
-  navLinkText: {
-    fontSize: 14,
-    color: "#4648D4",
-    fontWeight: "600",
+    color: "white",
   },
 });
 
