@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import { Board, Counts, GameLevel, Scores } from "./types";
+import { Board, GameLevel } from "./types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { RelativePathString } from "expo-router";
+import Toast from "react-native-toast-message";
 
 export const wins = [
   [0, 1, 2],
@@ -14,15 +15,26 @@ export const wins = [
   [6, 7, 8],
 ];
 
+function toast(message: string) {
+  Toast.show({
+    type: "info",
+    text1: message,
+    swipeable: true,
+    visibilityTime: 2000,
+  });
+}
+
 export const updatePlayerChoice = (
   setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>,
   newValue?: boolean | "random",
   isActiveGame?: boolean,
 ) => {
   if (newValue !== undefined) {
-    if (!isActiveGame) {
-      setIsPlayerX(newValue);
+    if (isActiveGame) {
+      toast("Finish the ongoing game first to change symbol");
+      return;
     }
+    setIsPlayerX(newValue);
     saveLocalData("playerChoice", JSON.stringify(newValue));
     return;
   }

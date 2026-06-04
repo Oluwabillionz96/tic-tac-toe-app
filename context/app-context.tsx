@@ -22,10 +22,8 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [gameStatus, setGameStatus] = useState<GameStatus>("none");
 
   useEffect(() => {
-    if (gameStatus === "none") {
-      getPlayerChoice(setIsPlayerX);
-    }
-  }, [gameStatus]);
+    getPlayerChoice(setIsPlayerX);
+  }, []);
   return (
     <AppContext.Provider
       value={{
