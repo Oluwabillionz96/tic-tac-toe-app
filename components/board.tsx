@@ -1,5 +1,6 @@
 import Square from "./square";
 import useGameContext from "@/hooks/use-game-context";
+import { playSound } from "@/libs/utils";
 import { FlatList } from "react-native";
 
 const Board = () => {
@@ -32,6 +33,7 @@ const Board = () => {
                 newBoard[index] = isPlayerX === true ? "X" : "O";
 
                 setBoard(newBoard);
+                playSound(require("@/assets/sounds/tap.wav"));
                 setIsPlayersTurn(!isPlayersTurn);
               }
             }

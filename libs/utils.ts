@@ -3,6 +3,7 @@ import { Board, GameLevel } from "./types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { RelativePathString } from "expo-router";
 import Toast from "react-native-toast-message";
+import { Audio } from "expo-av";
 
 export const wins = [
   [0, 1, 2],
@@ -15,7 +16,17 @@ export const wins = [
   [6, 7, 8],
 ];
 
-function toast(message: string) {
+export async function playSound(file: number) {
+  const { sound } = await Audio.Sound.createAsync(file);
+  await sound.playAsync();
+  sound.setOnPlaybackStatusUpdate((status) => {
+    if (status.isLoaded && status.didJustFinish) {
+      sound.unloadAsync();
+    }
+  });
+}
+
+export function toast(message: string) {
   Toast.show({
     type: "info",
     text1: message,
@@ -31,6 +42,7 @@ export const updatePlayerChoice = (
 ) => {
   if (newValue !== undefined) {
     if (isActiveGame) {
+      playSound(require("@/assets/sounds/notification.wav"));
       toast("Finish the ongoing game first to change symbol");
       return;
     }

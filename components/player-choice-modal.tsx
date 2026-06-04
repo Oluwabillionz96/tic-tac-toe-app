@@ -57,21 +57,48 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
       <View style={styles.backdrop}>
         <View style={styles.modalContent}>
           <View style={styles.header}>
-            <Text style={styles.headerText}>Choose Your side</Text>
+            <Text style={styles.headerText}>
+              {displayStatus === "paused" ? "Game Paused" : "Choose Your Side"}
+            </Text>
             <TouchableOpacity
               onPress={() => {
-                // setGameStatus("none");
                 router.replace("/");
               }}
             >
               <Ionicons name="close" size={24} color="black" />
             </TouchableOpacity>
           </View>
-          <>
-            {displayStatus === "none"
-              ? children
-              : displayStatus === "paused" && <Text>Game Paused</Text>}
-          </>
+          <View style={styles.body}>
+            {displayStatus === "none" ? (
+              children
+            ) : (
+              <View style={styles.pausedContainer}>
+                <View style={styles.pauseIconWrap}>
+                  <Ionicons name="pause-circle" size={64} color="#4648D4" />
+                </View>
+                <Text style={styles.pausedTitle}>Game Paused</Text>
+                <Text style={styles.pausedSubtitle}>
+                  Take a break — your game is saved
+                </Text>
+                <View style={styles.navLinks}>
+                  <TouchableOpacity
+                    style={styles.navLink}
+                    onPress={() => router.push("/(tabs)/stats")}
+                  >
+                    <Ionicons name="stats-chart-outline" size={20} color="#4648D4" />
+                    <Text style={styles.navLinkText}>Statistics</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.navLink}
+                    onPress={() => router.push("/(tabs)/settings")}
+                  >
+                    <Ionicons name="settings-outline" size={20} color="#4648D4" />
+                    <Text style={styles.navLinkText}>Settings</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            )}
+          </View>
           <Button handlePress={handleContinue}>
             <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>
               {displayStatus === "paused" ? "Continue" : "Start Game"}
@@ -116,6 +143,53 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#111C2D",
     textAlign: "center",
+    fontWeight: "600",
+  },
+  body: {
+    alignItems: "center",
+  },
+  pausedContainer: {
+    alignItems: "center",
+    gap: 12,
+    paddingVertical: 8,
+  },
+  pauseIconWrap: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    backgroundColor: "#EEF2FF",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 4,
+  },
+  pausedTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#111C2D",
+  },
+  pausedSubtitle: {
+    fontSize: 14,
+    color: "#7B7F8E",
+    textAlign: "center",
+  },
+  navLinks: {
+    flexDirection: "row",
+    gap: 16,
+    marginTop: 8,
+  },
+  navLink: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 999,
+    backgroundColor: "#EEF2FF",
+  },
+  navLinkText: {
+    fontSize: 14,
+    color: "#4648D4",
+    fontWeight: "600",
   },
 });
 
