@@ -4,10 +4,9 @@ import { FlatList } from "react-native";
 
 const Board = () => {
   const {
-    state: { winValues, board, isPlayersTurn, isPlayerX },
+    state: { gameStatus, board, isPlayersTurn, isPlayerX },
     stateSetter: { setBoard, setIsPlayersTurn },
   } = useGameContext();
-  const gameOver = winValues !== undefined || board.every((value) => value);
 
   return (
     <FlatList
@@ -27,7 +26,7 @@ const Board = () => {
           value={item}
           handlePress={() => {
             if (isPlayersTurn) {
-              if (!gameOver && !board[index]) {
+              if (gameStatus === "ongoing" && !board[index]) {
                 const newBoard = [...board];
 
                 newBoard[index] = isPlayerX === true ? "X" : "O";

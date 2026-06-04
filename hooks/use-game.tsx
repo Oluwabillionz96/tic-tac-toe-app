@@ -1,7 +1,7 @@
 import { otherPlayerAlgorithm } from "@/libs/algorithm";
 import { updateGames } from "@/libs/games";
 import { getScores, updateScores } from "@/libs/scores";
-import { GameLevel, ScoresValues } from "@/libs/types";
+import { GameLevel, GameStatus, ScoresValues } from "@/libs/types";
 import { checkWin, getLevel, getPlayerChoice } from "@/libs/utils";
 import { useEffect, useState } from "react";
 
@@ -11,9 +11,8 @@ const useGame = () => {
   const [isPlayersTurn, setIsPlayersTurn] = useState(isPlayerX === true);
   const [winValues, setWinValues] = useState<number[] | undefined>(undefined);
   const draw = winValues === undefined && board.every((value) => value);
-  const [isgameOn, setIsgameOn] = useState(false);
+  const [gameStatus, setGameStatus] = useState<GameStatus>("none");
   const [gameLevel, setGameLevel] = useState<GameLevel>("medium");
-  const gameOver = winValues !== undefined || draw;
   const [scores, setScores] = useState<ScoresValues>({
     player: 0,
     draw: 0,
@@ -21,15 +20,23 @@ const useGame = () => {
   });
 
   useEffect(() => {
-    getPlayerChoice(setIsPlayerX);
-    getScores("set", setScores);
-    getLevel(setGameLevel);
+    let isMounted = true;
+
+    if (isMounted) {
+      getPlayerChoice(setIsPlayerX);
+      getScores("set", setScores);
+      getLevel(setGameLevel);
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-    if (!isPlayersTurn && !gameOver && isgameOn) {
+    if (!isPlayersTurn && gameStatus === "ongoing") {
       timeoutId = setTimeout(() => {
         otherPlayerAlgorithm(
           isPlayersTurn,
@@ -47,20 +54,29 @@ const useGame = () => {
         clearTimeout(timeoutId);
       }
     };
-  }, [isPlayersTurn, board, gameOver, isPlayerX, isgameOn, gameLevel]);
+  }, [isPlayersTurn, board, isPlayerX, gameStatus, gameLevel]);
 
   useEffect(() => {
-    const newWinValues = checkWin(board);
-    setWinValues(newWinValues);
+    let isMounted = true;
 
-    // Update scores in the same effect after winValues is calculated
-    const isDraw = board.every((value) => value) && newWinValues === undefined;
-    const hasWinner = newWinValues !== undefined;
+    if (isMounted) {
+      const newWinValues = checkWin(board);
+      setWinValues(newWinValues);
 
-    if (isDraw || hasWinner) {
-      updateScores(setScores, board, isPlayerX, gameLevel, newWinValues);
-      updateGames(board, gameLevel, newWinValues);
+      // Update scores in the same effect after winValues is calculated
+      const isDraw =
+        board.every((value) => value) && newWinValues === undefined;
+      const hasWinner = newWinValues !== undefined;
+
+      if (isDraw || hasWinner) {
+        setGameStatus("ended");
+        updateScores(setScores, board, isPlayerX, gameLevel, newWinValues);
+        updateGames(board, gameLevel, newWinValues);
+      }
     }
+    return () => {
+      isMounted = false;
+    };
   }, [board, isPlayerX, setScores, gameLevel]);
 
   // Update isPlayersTurn when isPlayerX changes from "random" to boolean
@@ -76,7 +92,7 @@ const useGame = () => {
       isPlayersTurn,
       winValues,
       isPlayerX,
-      isgameOn,
+      gameStatus,
       scores,
       gameLevel,
     },
@@ -84,7 +100,7 @@ const useGame = () => {
       setBoard,
       setIsPlayersTurn,
       setIsPlayerX,
-      setIsgameOn,
+      setGameStatus,
       setScores,
       setWinValues,
       setGameLevel,

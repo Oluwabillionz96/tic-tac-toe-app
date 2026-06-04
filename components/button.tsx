@@ -11,20 +11,22 @@ const Button = ({
   variant = "default",
   style,
 }: {
-  handlePress: () => void;
-  children: React.ReactNode;
+  handlePress?: () => void;
+  children?: React.ReactNode;
   variant?: "default" | "invert";
   style?: StyleProp<ViewStyle>;
 }) => {
+  const propstyles = style as object;
+  const buttonStyles = {
+    ...styles.button,
+    backgroundColor:
+      variant === "invert" ? "#dee8ff" : styles.button.backgroundColor,
+    ...propstyles,
+  };
+
+  console.log({ buttonStyles });
   return (
-    <TouchableOpacity
-      style={{
-        ...styles.button,
-        ...(variant === "invert" ? { backgroundColor: "#DEE8FF" } : {}),
-        ...{ style },
-      }}
-      onPress={handlePress}
-    >
+    <TouchableOpacity style={buttonStyles} onPress={handlePress}>
       {children}
     </TouchableOpacity>
   );

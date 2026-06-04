@@ -4,14 +4,15 @@ import useGameContext from "@/hooks/use-game-context";
 import { saveLocalData } from "@/libs/utils";
 import { usePathname, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
 
-const PlayerChoiceModal = ({ children }: { children: React.ReactNode }) => {
+const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
   const {
-    state: { isgameOn, isPlayerX, gameLevel },
-    stateSetter: { setIsPlayerX, setIsPlayersTurn, setIsgameOn },
+    state: { gameStatus, isPlayerX, gameLevel },
+    stateSetter: { setIsPlayerX, setIsPlayersTurn, setGameStatus },
   } = useGameContext();
   const pathname = usePathname();
-  const handleContinue = () => {
+  const handleContinue: () => void = () => {
     setIsPlayerX((value) => {
       if (value === "random") {
         saveLocalData("playerChoice", JSON.stringify("random"));
@@ -23,15 +24,27 @@ const PlayerChoiceModal = ({ children }: { children: React.ReactNode }) => {
     });
     setIsPlayersTurn(isPlayerX === true);
     saveLocalData("level", JSON.stringify(gameLevel));
-    setIsgameOn(true);
+    setGameStatus("ongoing");
   };
+  const [showModal, setShowModal] = useState(true);
 
-  if (pathname !== "/play") {
-    return null;
-  }
+  useEffect(() => {
+    if (pathname !== "/play") {
+      setShowModal(false);
+      if (gameStatus === "ongoing") {
+        setGameStatus("paused");
+      }
+    } else {
+      setShowModal(true);
+    }
+  }, [pathname, gameStatus, setGameStatus]);
 
   return (
-    <Modal animationType="fade" transparent visible={!isgameOn}>
+    <Modal
+      animationType="fade"
+      transparent
+      visible={(gameStatus === "none" || gameStatus === "paused") && showModal}
+    >
       {/* Semi-transparent backdrop - works with Expo Go */}
       <View style={styles.backdrop}>
         <View style={styles.modalContent}>
@@ -39,14 +52,18 @@ const PlayerChoiceModal = ({ children }: { children: React.ReactNode }) => {
             <Text style={styles.headerText}>Choose Your side</Text>
             <TouchableOpacity
               onPress={() => {
-                setIsgameOn(false);
+                // setGameStatus("none");
                 router.replace("/");
               }}
             >
               <Ionicons name="close" size={24} color="black" />
             </TouchableOpacity>
           </View>
-          {children}
+          <>
+            {gameStatus === "none"
+              ? children
+              : gameStatus === "paused" && <Text>Game Paused</Text>}
+          </>
           <Button handlePress={handleContinue}>
             <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>
               Start Game

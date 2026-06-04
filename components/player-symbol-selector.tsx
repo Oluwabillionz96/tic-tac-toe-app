@@ -1,5 +1,9 @@
-import { Feather } from "@expo/vector-icons";
-import { FontAwesome, FontAwesome6, MaterialCommunityIcons } from "@expo/vector-icons";
+import {
+  FontAwesome,
+  FontAwesome6,
+  MaterialCommunityIcons,
+  Feather,
+} from "@expo/vector-icons";
 import { StyleSheet, Text, View } from "react-native";
 
 const ICON_SIZE = 20;
@@ -8,7 +12,13 @@ const SYMBOLS = ["X", "O", "Random"] as const;
 
 function SymbolIcon({ symbol, color }: { symbol: string; color: string }) {
   if (symbol === "X") {
-    return <MaterialCommunityIcons name="window-close" size={ICON_SIZE} color={color} />;
+    return (
+      <MaterialCommunityIcons
+        name="window-close"
+        size={ICON_SIZE}
+        color={color}
+      />
+    );
   }
   if (symbol === "O") {
     return <FontAwesome6 name="circle" size={ICON_SIZE} color={color} />;
@@ -16,9 +26,14 @@ function SymbolIcon({ symbol, color }: { symbol: string; color: string }) {
   return <FontAwesome name="random" size={ICON_SIZE} color={color} />;
 }
 
-export default function PlayerSymbolSelector() {
-  const selected = "X";
-
+export default function PlayerSymbolSelector({
+  playerChoice,
+}: {
+  playerChoice: boolean | "random";
+}) {
+  const selectedSymbol =
+    playerChoice === true ? "X" : playerChoice === "random" ? "Random" : "O";
+  console.log({ selectedSymbol });
   return (
     <View style={styles.row}>
       <View style={styles.labelWrap}>
@@ -27,7 +42,7 @@ export default function PlayerSymbolSelector() {
       </View>
       <View style={styles.toggle}>
         {SYMBOLS.map((symbol) => {
-          const isSelected = symbol === selected;
+          const isSelected = symbol === selectedSymbol;
           return (
             <View
               key={symbol}

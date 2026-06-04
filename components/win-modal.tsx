@@ -11,20 +11,22 @@ import { useEffect, useState } from "react";
 
 const WinModal = ({ reset }: { reset: () => void }) => {
   const {
-    state: { winValues, board, isPlayerX },
+    state: { winValues, board, isPlayerX, gameStatus },
+    stateSetter: { setGameStatus },
     draw,
   } = useGameContext();
 
   const winner = winValues && board[winValues[0]];
   const playerValue = isPlayerX ? "X" : "O";
   const playerWins = winner === playerValue;
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if ((winValues && winValues?.length > 0) || draw) {
       timer = setTimeout(() => {
-        setShowModal(true);
+        // setShowModal(true);
+        setGameStatus("ended");
       }, 1500);
     }
 
@@ -32,7 +34,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
   });
 
   return (
-    <Modal visible={showModal} animationType="slide" transparent>
+    <Modal visible={gameStatus === "ended"} animationType="slide" transparent>
       <View
         style={{
           flex: 1,
@@ -101,7 +103,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
           <Button
             handlePress={() => {
               reset();
-              setShowModal(false);
+              // setShowModal(false);
             }}
           >
             <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>
@@ -111,7 +113,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
           <Button
             handlePress={() => {
               reset();
-              setShowModal(false);
+              setGameStatus("none");
               router.push("/");
             }}
             variant="invert"

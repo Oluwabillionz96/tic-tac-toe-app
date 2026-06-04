@@ -10,6 +10,7 @@ export interface Counts<T> {
   hard: T;
 }
 
+export type GameStatus = "ongoing" | "paused" | "none" | "ended";
 export type Scores = Counts<ScoresValues>;
 export type Games = Counts<number>;
 export type GameCounts = Counts<number>;

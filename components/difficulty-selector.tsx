@@ -1,9 +1,15 @@
+import { GameLevel } from "@/libs/types";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const LEVELS = ["easy", "medium", "hard"] as const;
 
-export default function DifficultySelector() {
+export default function DifficultySelector({
+  gameLevel,
+}: {
+  gameLevel: GameLevel;
+}) {
+  // const
   return (
     <View style={styles.card}>
       <View style={styles.header}>
@@ -12,7 +18,18 @@ export default function DifficultySelector() {
       </View>
       <View style={styles.row}>
         {LEVELS.map((level) => (
-          <TouchableOpacity key={level} style={styles.button}>
+          <TouchableOpacity
+            key={level}
+            style={{
+              ...styles.button,
+              ...(level === gameLevel
+                ? {
+                    borderColor: "#4648D4",
+                    backgroundColor: "rgba(70,72,212,0.05)",
+                  }
+                : {}),
+            }}
+          >
             <Text style={styles.buttonLabel}>{level}</Text>
           </TouchableOpacity>
         ))}
@@ -48,6 +65,9 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 8,
     alignItems: "center",
+    borderWidth: 2,
+    borderStyle: "solid",
+    borderColor: "rgba(0,0,0, 0)",
   },
   buttonLabel: {
     textTransform: "capitalize",

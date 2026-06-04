@@ -1,4 +1,4 @@
-import { ScrollView, View, Text } from "react-native";
+import { View, Text } from "react-native";
 import ScoreRow from "./score-row";
 import Indicator from "./indicator";
 import Board from "./board";
@@ -13,25 +13,29 @@ import { Feather } from "@expo/vector-icons";
 import PageWrapper from "./page-wrapper";
 const PlayScreen = () => {
   const {
-    state: { isgameOn, winValues, board },
-    stateSetter: { setBoard, setIsgameOn, setWinValues, setIsPlayerX },
+    state: { gameStatus },
+    stateSetter: { setBoard, setGameStatus, setWinValues, setIsPlayerX },
   } = useGameContext();
 
   function reset() {
+    if (gameStatus === "paused") {
+      setGameStatus("ongoing");
+      return;
+    }
+
     setBoard(Array(9).fill(null));
-    setIsgameOn(false);
+    setGameStatus("none");
     getPlayerChoice(setIsPlayerX);
     setWinValues(undefined);
   }
 
-  const gameOver = winValues !== undefined || board.every((value) => value);
   return (
     <PageWrapper>
       <ScoreRow />
       <Indicator />
       <View style={{ gap: 16 }}>
         <Board />
-        {isgameOn && !gameOver && (
+        {gameStatus === "ongoing" && (
           <Button
             handlePress={reset}
             style={{
