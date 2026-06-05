@@ -61,7 +61,7 @@ const useGame = (
         clearTimeout(timeoutId);
       }
     };
-  }, [isPlayersTurn, board, isPlayerX, gameStatus, gameLevel]);
+  }, [isPlayersTurn, board, isPlayerX, gameStatus, player, gameLevel]);
 
   useEffect(() => {
     let isMounted = true;

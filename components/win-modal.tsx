@@ -26,6 +26,8 @@ const WinModal = ({ reset }: { reset: () => void }) => {
     let soundpath;
     if (playerWins) {
       soundpath = require("@/assets/sounds/win.wav");
+    } else if (draw) {
+      soundpath = require("@/assets/sounds/draw.wav");
     } else {
       soundpath = require("@/assets/sounds/lose.wav");
     }
