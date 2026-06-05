@@ -1,7 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
 import { Board, GameLevel } from "./types";
-import { getRandomMove, playSound } from "./utils";
+import { getRandomMove } from "./utils";
 import { findMoves, takePlace } from "./moves";
+import { playSound } from "./sound";
 
 function smartAlgorithm(board: Board, isPlayerX: boolean, level: GameLevel) {
   if (level === "easy" && Math.random() < 0.8) {

@@ -3,7 +3,7 @@ import { Board, GameLevel } from "./types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { RelativePathString } from "expo-router";
 import Toast from "react-native-toast-message";
-import { Audio } from "expo-av";
+import { playSound } from "./sound";
 
 export const wins = [
   [0, 1, 2],
@@ -15,16 +15,6 @@ export const wins = [
   [3, 4, 5],
   [6, 7, 8],
 ];
-
-export async function playSound(file: number) {
-  const { sound } = await Audio.Sound.createAsync(file);
-  await sound.playAsync();
-  sound.setOnPlaybackStatusUpdate((status) => {
-    if (status.isLoaded && status.didJustFinish) {
-      sound.unloadAsync();
-    }
-  });
-}
 
 export function toast(message: string) {
   Toast.show({

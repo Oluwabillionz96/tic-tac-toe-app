@@ -68,8 +68,10 @@ const PlayScreen = () => {
       <WinModal reset={reset} />
 
       <PlayerChoiceModal>
-        <ChoiceList />
-        <LevelList />
+        <View style={{ gap: 32 }}>
+          <ChoiceList />
+          <LevelList />
+        </View>
       </PlayerChoiceModal>
     </PageWrapper>
   );

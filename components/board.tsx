@@ -1,6 +1,6 @@
 import Square from "./square";
 import useGameContext from "@/hooks/use-game-context";
-import { playSound } from "@/libs/utils";
+import { playSound } from "@/libs/sound";
 import { FlatList } from "react-native";
 
 const Board = () => {

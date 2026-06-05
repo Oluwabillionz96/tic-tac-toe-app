@@ -20,7 +20,7 @@ const LevelList = () => {
     stateSetter: { setGameLevel },
   } = useGameContext();
   return (
-    <View style={{ gap: 8 }}>
+    <View style={{ gap: 8, width: "100%" }}>
       <Text
         style={{
           color: "#767586",

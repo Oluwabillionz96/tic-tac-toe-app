@@ -1,5 +1,5 @@
 import useAppContext from "@/hooks/use-app-context";
-import { notify, saveLocalData, toast } from "@/libs/utils";
+import { notify, saveLocalData } from "@/libs/utils";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
