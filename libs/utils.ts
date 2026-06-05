@@ -3,7 +3,6 @@ import { Board, GameLevel } from "./types";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { RelativePathString } from "expo-router";
 import Toast from "react-native-toast-message";
-import { playSound } from "./sound";
 
 export const wins = [
   [0, 1, 2],
@@ -27,7 +26,7 @@ export function toast(message: string) {
 
 export function notify(message: string) {
   toast(message);
-  playSound(require("@/assets/sounds/notification.wav"));
+  // playSound(require("@/assets/sounds/notification.wav"));
 }
 
 export const updatePlayerChoice = (

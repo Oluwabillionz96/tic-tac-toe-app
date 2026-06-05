@@ -7,9 +7,8 @@ import {
 import Button from "./button";
 import { router } from "expo-router";
 import useGameContext from "@/hooks/use-game-context";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { cutSound, playSound } from "@/libs/sound";
-import { Audio } from "expo-av";
+import { useEffect, useState } from "react";
+import usePlayer from "@/hooks/use-player";
 
 const WinModal = ({ reset }: { reset: () => void }) => {
   const {
@@ -22,9 +21,8 @@ const WinModal = ({ reset }: { reset: () => void }) => {
   const playerValue = isPlayerX ? "X" : "O";
   const playerWins = winner === playerValue;
   const [showModal, setShowModal] = useState(false);
-  const [modalSound, setModalSound] = useState<Audio.Sound | null>(null);
 
-  const getSound = useCallback(() => {
+  const getSound = () => {
     let soundpath;
     if (playerWins) {
       soundpath = require("@/assets/sounds/win.wav");
@@ -32,21 +30,21 @@ const WinModal = ({ reset }: { reset: () => void }) => {
       soundpath = require("@/assets/sounds/lose.wav");
     }
     return soundpath;
-  }, [playerWins]);
+  };
+
+  const player = usePlayer(getSound());
+
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if ((winValues && winValues?.length > 0) || draw) {
-      const soundPath = getSound();
-      playSound(soundPath).then((sound) => {
-        setModalSound(sound);
-        timer = setTimeout(() => {
-          setShowModal(true);
-        }, 3000);
-      });
+      player.play();
+      timer = setTimeout(() => {
+        setShowModal(true);
+      }, 3000);
     }
 
     return () => clearTimeout(timer);
-  }, [draw, winValues, getSound]);
+  }, [draw, winValues, player]);
 
   return (
     <Modal
@@ -122,8 +120,8 @@ const WinModal = ({ reset }: { reset: () => void }) => {
           <Button
             handlePress={() => {
               reset();
-              if (modalSound) {
-                cutSound(modalSound).finally(() => setModalSound(null));
+              if (player.playing) {
+                player.remove();
               }
             }}
           >
