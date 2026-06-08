@@ -5,7 +5,6 @@ import { GameLevel, GameStatus, ScoresValues } from "@/libs/types";
 import { checkWin, getPlayerChoice } from "@/libs/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import usePlayer from "./use-player";
-
 const tapSound = require("@/assets/sounds/tap.wav");
 
 const useGame = (
@@ -26,6 +25,12 @@ const useGame = (
     computer: 0,
   });
   const player = usePlayer(tapSound);
+
+  useEffect(() => {
+    if (board.some((values) => values !== null)) {
+      player?.play();
+    }
+  }, [board]);
 
   useEffect(() => {
     let isMounted = true;
@@ -51,7 +56,6 @@ const useGame = (
           setBoard,
           isPlayerX,
           gameLevel,
-          player,
         );
       }, 1000);
     }

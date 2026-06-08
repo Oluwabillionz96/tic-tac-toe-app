@@ -1,7 +1,6 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { FlatList, Text } from "react-native";
 import SymbolCard from "./symbol-card";
 import useGameContext from "@/hooks/use-game-context";
 import { View } from "react-native";

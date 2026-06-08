@@ -39,7 +39,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if ((winValues && winValues?.length > 0) || draw) {
-      player.play();
+      player?.play();
       timer = setTimeout(() => {
         setShowModal(true);
       }, 3000);
@@ -122,7 +122,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
           <Button
             handlePress={() => {
               reset();
-              if (player.playing) {
+              if (player?.playing) {
                 player.remove();
               }
             }}

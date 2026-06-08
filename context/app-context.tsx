@@ -1,6 +1,7 @@
 import usePlayer from "@/hooks/use-player";
 import { GameLevel, GameStatus } from "@/libs/types";
 import { getLevel, getPlayerChoice } from "@/libs/utils";
+import { useAudioPlayerStatus } from "expo-audio";
 import {
   createContext,
   Dispatch,
@@ -37,16 +38,18 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    player.loop = true;
-    const audioHalfLength = player.duration / 2;
-    player.play();
+    if (!player) return;
 
+    player.loop = true;
+    player.play();
+  }, [player]);
+
+  useEffect(() => {
+    if (!player) return;
     if (gameStatus === "ended") {
       player.pause();
-      player.seekTo(Math.random() * audioHalfLength);
+      player.currentTime = 0;
     }
-
-    return () => player.pause();
   }, [gameStatus, player]);
 
   return (
