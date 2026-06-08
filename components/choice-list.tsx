@@ -1,9 +1,10 @@
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { FlatList } from "react-native";
+import { FlatList, Text } from "react-native";
 import SymbolCard from "./symbol-card";
 import useGameContext from "@/hooks/use-game-context";
+import { View } from "react-native";
 
 const iconSize = 24;
 
@@ -41,26 +42,29 @@ const ChoiceList = () => {
     stateSetter: { setIsPlayerX },
   } = useGameContext();
   return (
-    <FlatList
-      data={playerChoices}
-      contentContainerStyle={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-evenly",
-        gap: 10,
-        // height: "50%",
-      }}
-      renderItem={({ item }) => (
-        <SymbolCard
-          icon={item.icon}
-          label={item.label}
-          isSelected={item.value === isPlayerX}
-          handlePress={() => {
-            setIsPlayerX(item.value);
-          }}
-        />
-      )}
-    />
+    <>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-evenly",
+          gap: 10,
+          // height: "50%",
+        }}
+      >
+        {playerChoices.map((item, indx) => (
+          <SymbolCard
+            key={indx}
+            icon={item.icon}
+            label={item.label}
+            isSelected={item.value === isPlayerX}
+            handlePress={() => {
+              setIsPlayerX(item.value);
+            }}
+          />
+        ))}
+      </View>
+    </>
   );
 };
 
