@@ -27,12 +27,6 @@ const useGame = (
   const player = usePlayer(tapSound);
 
   useEffect(() => {
-    if (board.some((values) => values !== null)) {
-      player?.play();
-    }
-  }, [board]);
-
-  useEffect(() => {
     let isMounted = true;
 
     if (isMounted) {
@@ -56,6 +50,7 @@ const useGame = (
           setBoard,
           isPlayerX,
           gameLevel,
+          player,
         );
       }, 1000);
     }

@@ -48,7 +48,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     if (!player) return;
     if (gameStatus === "ended") {
       player.pause();
-      player.currentTime = 0;
+      player.seekTo(0)
     }
   }, [gameStatus, player]);
 

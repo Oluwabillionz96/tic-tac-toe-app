@@ -38,7 +38,8 @@ const Board = () => {
 
                 setBoard(newBoard);
                 setIsPlayersTurn(!isPlayersTurn);
-                player.play();
+                player?.seekTo(0);
+                player?.play();
               }
             }
           }}
