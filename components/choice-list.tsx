@@ -41,29 +41,27 @@ const ChoiceList = () => {
     stateSetter: { setIsPlayerX },
   } = useGameContext();
   return (
-    <>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-evenly",
-          gap: 10,
-          // height: "50%",
-        }}
-      >
-        {playerChoices.map((item, indx) => (
-          <SymbolCard
-            key={indx}
-            icon={item.icon}
-            label={item.label}
-            isSelected={item.value === isPlayerX}
-            handlePress={() => {
-              setIsPlayerX(item.value);
-            }}
-          />
-        ))}
-      </View>
-    </>
+    <View
+      style={{
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-evenly",
+        gap: 10,
+        width: "100%",
+      }}
+    >
+      {playerChoices.map((item) => (
+        <SymbolCard
+          key={item.label}
+          icon={item.icon}
+          label={item.label}
+          isSelected={item.value === isPlayerX}
+          handlePress={() => {
+            setIsPlayerX(item.value);
+          }}
+        />
+      ))}
+    </View>
   );
 };
 

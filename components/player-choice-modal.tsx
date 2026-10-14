@@ -1,11 +1,11 @@
-import { View, Text, Modal, StyleSheet } from "react-native";
+import { View, Text, Modal, StyleSheet, ScrollView } from "react-native";
 import Button from "./button";
 import ModalHeader from "./modal-header";
 import PausedView from "./paused-view";
 import useGameContext from "@/hooks/use-game-context";
 import { saveLocalData, updatePlayerChoice } from "@/libs/utils";
 import { usePathname } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
   const {
@@ -13,12 +13,12 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
     stateSetter: { setIsPlayerX, setIsPlayersTurn, setGameStatus },
   } = useGameContext();
 
-  const statusRef = useRef(gameStatus);
-  if (gameStatus !== "ongoing") {
-    statusRef.current = gameStatus;
-  }
+  // const [status, setStatus] = useState(gameStatus);
+  // if (gameStatus !== "ongoing") {
+  //   setStatus(gameStatus);
+  // }
 
-  const displayStatus = statusRef.current;
+  const displayStatus = gameStatus;
   const pathname = usePathname();
 
   const handleContinue = () => {
@@ -51,15 +51,17 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
       <View style={styles.backdrop}>
         <View style={styles.modalContent}>
           <ModalHeader
-            title={displayStatus === "paused" ? "Game Paused" : "Choose Your Side"}
+            title={
+              displayStatus === "paused" ? "Game Paused" : "Choose Your Side"
+            }
           />
-          <View style={styles.body}>
-            {displayStatus === "none" ? (
-              children
-            ) : (
-              <PausedView />
-            )}
-          </View>
+          <ScrollView
+            style={styles.bodyScroll}
+            contentContainerStyle={styles.body}
+            showsVerticalScrollIndicator={false}
+          >
+            {displayStatus === "none" ? children : <PausedView />}
+          </ScrollView>
           <Button handlePress={handleContinue}>
             <Text style={styles.buttonText}>
               {displayStatus === "paused" ? "Continue" : "Start Game"}
@@ -82,6 +84,7 @@ const styles = StyleSheet.create({
   modalContent: {
     width: "100%",
     maxWidth: 400,
+    maxHeight: "90%",
     backgroundColor: "white",
     borderRadius: 15,
     padding: 28,
@@ -90,10 +93,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     shadowRadius: 4,
     elevation: 5,
-    gap: 32,
+    gap: 24,
+  },
+  bodyScroll: {
+    flexShrink: 1,
   },
   body: {
     alignItems: "center",
+    width: "100%",
   },
   buttonText: {
     fontSize: 24,

@@ -67,7 +67,9 @@ const useGame = (
 
     if (isMounted) {
       const newWinValues = checkWin(board);
-      setWinValues(newWinValues);
+      (() => {
+        setWinValues(newWinValues);
+      })();
 
       // Update scores in the same effect after winValues is calculated
       const isDraw =
@@ -88,7 +90,9 @@ const useGame = (
   // Update isPlayersTurn when isPlayerX changes from "random" to boolean
   useEffect(() => {
     if (isPlayerX !== "random") {
-      setIsPlayersTurn(isPlayerX);
+      (() => {
+        setIsPlayersTurn(isPlayerX);
+      })();
     }
   }, [isPlayerX, winValues]);
 

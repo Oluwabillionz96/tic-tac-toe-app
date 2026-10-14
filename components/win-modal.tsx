@@ -8,7 +8,7 @@ import Button from "./button";
 import { router } from "expo-router";
 import useGameContext from "@/hooks/use-game-context";
 import { useEffect, useState } from "react";
-import usePlayer from "@/hooks/use-player";
+import { playWin, playLose, stopWin, stopLose } from "@/libs/sound";
 
 const WinModal = ({ reset }: { reset: () => void }) => {
   const {
@@ -22,31 +22,29 @@ const WinModal = ({ reset }: { reset: () => void }) => {
   const playerWins = winner === playerValue;
   const [showModal, setShowModal] = useState(false);
 
-  const getSound = () => {
-    let soundpath;
+  const stopResult = () => {
     if (playerWins) {
-      soundpath = require("@/assets/sounds/win.wav");
-    } else if (draw) {
-      soundpath = require("@/assets/sounds/draw.wav");
+      stopWin();
     } else {
-      soundpath = require("@/assets/sounds/lose.wav");
+      stopLose();
     }
-    return soundpath;
   };
-
-  const player = usePlayer(getSound());
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if ((winValues && winValues?.length > 0) || draw) {
-      player?.play();
+      if (playerWins) {
+        playWin();
+      } else {
+        playLose();
+      }
       timer = setTimeout(() => {
         setShowModal(true);
-      }, 3000);
+      }, 1500);
     }
 
     return () => clearTimeout(timer);
-  }, [draw, winValues, player]);
+  }, [draw, winValues, playerWins]);
 
   return (
     <Modal
@@ -122,9 +120,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
           <Button
             handlePress={() => {
               reset();
-              if (player?.playing) {
-                player.remove();
-              }
+              stopResult();
             }}
           >
             <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>
@@ -134,6 +130,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
           <Button
             handlePress={() => {
               reset();
+              stopResult();
               setGameStatus("none");
               router.push("/");
             }}

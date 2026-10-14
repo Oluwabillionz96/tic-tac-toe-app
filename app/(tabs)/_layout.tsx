@@ -1,10 +1,12 @@
 import PageHeader from "@/components/page-header";
 import PlayScreenHeader from "@/components/play-screen-header";
+// import { AppProvider } from "@/context/app-context";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
 const TabLayout = () => {
   return (
+    // <AppProvider>
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#4648D4",
@@ -34,7 +36,7 @@ const TabLayout = () => {
             />
           ),
         }}
-      />{" "}
+      />
       <Tabs.Screen
         name="stats"
         options={{
@@ -64,6 +66,7 @@ const TabLayout = () => {
         }}
       />
     </Tabs>
+    // </AppProvider>
   );
 };
 

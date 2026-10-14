@@ -1,17 +1,13 @@
 import Square from "./square";
 import useGameContext from "@/hooks/use-game-context";
+import { playTap } from "@/libs/sound";
 import { FlatList } from "react-native";
-import usePlayer from "@/hooks/use-player";
-
-const audioSource = require("@/assets/sounds/tap.wav");
 
 const Board = () => {
   const {
     state: { gameStatus, board, isPlayersTurn, isPlayerX },
     stateSetter: { setBoard, setIsPlayersTurn },
   } = useGameContext();
-
-  const player = usePlayer(audioSource);
 
   return (
     <FlatList
@@ -33,13 +29,10 @@ const Board = () => {
             if (isPlayersTurn) {
               if (gameStatus === "ongoing" && !board[index]) {
                 const newBoard = [...board];
-
                 newBoard[index] = isPlayerX === true ? "X" : "O";
-
                 setBoard(newBoard);
+                playTap();
                 setIsPlayersTurn(!isPlayersTurn);
-                player?.seekTo(0);
-                player?.play();
               }
             }
           }}

@@ -11,7 +11,9 @@ export default function ModalHeader({ title }: ModalHeaderProps) {
     <View style={styles.header}>
       <Text style={styles.headerText}>{title}</Text>
       <TouchableOpacity onPress={() => router.replace("/")}>
-        <Ionicons name="close" size={24} color="black" />
+        <Text>
+          <Ionicons name="close" size={24} color="black" />
+        </Text>
       </TouchableOpacity>
     </View>
   );

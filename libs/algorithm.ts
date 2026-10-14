@@ -2,7 +2,8 @@ import { Dispatch, SetStateAction } from "react";
 import { Board, GameLevel } from "./types";
 import { getRandomMove } from "./utils";
 import { findMoves, takePlace } from "./moves";
-import { AudioPlayer } from "expo-audio";
+import { playTap } from "./sound";
+// import { playSound } from "./sound";
 
 function smartAlgorithm(board: Board, isPlayerX: boolean, level: GameLevel) {
   if (level === "easy" && Math.random() < 0.8) {
@@ -51,7 +52,6 @@ export const otherPlayerAlgorithm = (
   setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>,
   isPlayerX: boolean | "random",
   level: GameLevel,
-  player: AudioPlayer | null,
 ) => {
   if (isPlayerTurn) return;
 
@@ -59,10 +59,7 @@ export const otherPlayerAlgorithm = (
 
   const newBoard = [...board];
   newBoard[nextMoveIndex] = isPlayerX === true ? "O" : "X";
-  if (player) {
-    player.seekTo(0);
-    player.play();
-  }
   setBoard(newBoard);
+  playTap();
   setTurn(true);
 };
