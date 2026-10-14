@@ -1,4 +1,4 @@
-import { View, Text, Modal, StyleSheet } from "react-native";
+import { View, Text, Modal, StyleSheet, ScrollView } from "react-native";
 import Button from "./button";
 import ModalHeader from "./modal-header";
 import PausedView from "./paused-view";
@@ -55,9 +55,13 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
               displayStatus === "paused" ? "Game Paused" : "Choose Your Side"
             }
           />
-          <View style={styles.body}>
+          <ScrollView
+            style={styles.bodyScroll}
+            contentContainerStyle={styles.body}
+            showsVerticalScrollIndicator={false}
+          >
             {displayStatus === "none" ? children : <PausedView />}
-          </View>
+          </ScrollView>
           <Button handlePress={handleContinue}>
             <Text style={styles.buttonText}>
               {displayStatus === "paused" ? "Continue" : "Start Game"}
@@ -80,6 +84,7 @@ const styles = StyleSheet.create({
   modalContent: {
     width: "100%",
     maxWidth: 400,
+    maxHeight: "90%",
     backgroundColor: "white",
     borderRadius: 15,
     padding: 28,
@@ -88,10 +93,14 @@ const styles = StyleSheet.create({
     shadowOpacity: 0,
     shadowRadius: 4,
     elevation: 5,
-    gap: 32,
+    gap: 24,
+  },
+  bodyScroll: {
+    flexShrink: 1,
   },
   body: {
     alignItems: "center",
+    width: "100%",
   },
   buttonText: {
     fontSize: 24,
