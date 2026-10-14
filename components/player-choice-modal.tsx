@@ -5,7 +5,7 @@ import PausedView from "./paused-view";
 import useGameContext from "@/hooks/use-game-context";
 import { saveLocalData, updatePlayerChoice } from "@/libs/utils";
 import { usePathname } from "expo-router";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
   const {
@@ -13,12 +13,12 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
     stateSetter: { setIsPlayerX, setIsPlayersTurn, setGameStatus },
   } = useGameContext();
 
-  const statusRef = useRef(gameStatus);
-  if (gameStatus !== "ongoing") {
-    statusRef.current = gameStatus;
-  }
+  // const [status, setStatus] = useState(gameStatus);
+  // if (gameStatus !== "ongoing") {
+  //   setStatus(gameStatus);
+  // }
 
-  const displayStatus = statusRef.current;
+  const displayStatus = gameStatus;
   const pathname = usePathname();
 
   const handleContinue = () => {
@@ -51,14 +51,12 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
       <View style={styles.backdrop}>
         <View style={styles.modalContent}>
           <ModalHeader
-            title={displayStatus === "paused" ? "Game Paused" : "Choose Your Side"}
+            title={
+              displayStatus === "paused" ? "Game Paused" : "Choose Your Side"
+            }
           />
           <View style={styles.body}>
-            {displayStatus === "none" ? (
-              children
-            ) : (
-              <PausedView />
-            )}
+            {displayStatus === "none" ? children : <PausedView />}
           </View>
           <Button handlePress={handleContinue}>
             <Text style={styles.buttonText}>

@@ -3,6 +3,7 @@ import { updateGames } from "@/libs/games";
 import { getScores, updateScores } from "@/libs/scores";
 import { GameLevel, GameStatus, ScoresValues } from "@/libs/types";
 import { checkWin, getPlayerChoice } from "@/libs/utils";
+import { useAudioPlayer } from "expo-audio";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const useGame = (
@@ -22,6 +23,7 @@ const useGame = (
     draw: 0,
     computer: 0,
   });
+  const player = useAudioPlayer(require("@/assets/sounds/tap.wav"));
 
   useEffect(() => {
     let isMounted = true;
@@ -47,6 +49,10 @@ const useGame = (
           setBoard,
           isPlayerX,
           gameLevel,
+          () => {
+            player.seekTo(0);
+            player.play();
+          },
         );
       }, 1000);
     }
@@ -56,14 +62,16 @@ const useGame = (
         clearTimeout(timeoutId);
       }
     };
-  }, [isPlayersTurn, board, isPlayerX, gameStatus, gameLevel]);
+  }, [isPlayersTurn, board, isPlayerX, gameStatus, gameLevel, player]);
 
   useEffect(() => {
     let isMounted = true;
 
     if (isMounted) {
       const newWinValues = checkWin(board);
-      setWinValues(newWinValues);
+      (() => {
+        setWinValues(newWinValues);
+      })();
 
       // Update scores in the same effect after winValues is calculated
       const isDraw =
@@ -84,7 +92,9 @@ const useGame = (
   // Update isPlayersTurn when isPlayerX changes from "random" to boolean
   useEffect(() => {
     if (isPlayerX !== "random") {
-      setIsPlayersTurn(isPlayerX);
+      (() => {
+        setIsPlayersTurn(isPlayerX);
+      })();
     }
   }, [isPlayerX, winValues]);
 

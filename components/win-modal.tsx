@@ -7,9 +7,10 @@ import {
 import Button from "./button";
 import { router } from "expo-router";
 import useGameContext from "@/hooks/use-game-context";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { cutSound, playSound } from "@/libs/sound";
-import { Audio } from "expo-av";
+import { useCallback, useEffect, useState } from "react";
+// import { cutSound, playSound } from "@/libs/sound";
+// import { Audio } from "expo-av";
+import { useAudioPlayer } from "expo-audio";
 
 const WinModal = ({ reset }: { reset: () => void }) => {
   const {
@@ -22,8 +23,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
   const playerValue = isPlayerX ? "X" : "O";
   const playerWins = winner === playerValue;
   const [showModal, setShowModal] = useState(false);
-  const [modalSound, setModalSound] = useState<Audio.Sound | null>(null);
-
+  // const [modalSound, setModalSound] = useState<Audio.Sound | null>(null);
   const getSound = useCallback(() => {
     let soundpath;
     if (playerWins) {
@@ -33,20 +33,22 @@ const WinModal = ({ reset }: { reset: () => void }) => {
     }
     return soundpath;
   }, [playerWins]);
+
+  const player = useAudioPlayer(getSound());
+
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if ((winValues && winValues?.length > 0) || draw) {
-      const soundPath = getSound();
-      playSound(soundPath).then((sound) => {
-        setModalSound(sound);
-        timer = setTimeout(() => {
-          setShowModal(true);
-        }, 3000);
-      });
+      // const soundPath = getSound();
+      // setModalSound(sound);
+      player.play();
+      timer = setTimeout(() => {
+        setShowModal(true);
+      }, 3000);
     }
 
     return () => clearTimeout(timer);
-  }, [draw, winValues, getSound]);
+  }, [draw, winValues, getSound, player]);
 
   return (
     <Modal
@@ -122,9 +124,9 @@ const WinModal = ({ reset }: { reset: () => void }) => {
           <Button
             handlePress={() => {
               reset();
-              if (modalSound) {
-                cutSound(modalSound).finally(() => setModalSound(null));
-              }
+              // if (modalSound) {
+              //   cutSound(modalSound).finally(() => setModalSound(null));
+              // }
             }}
           >
             <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { getLevel, getPlayerChoice, reset } from "@/libs/utils";
+// import React, { useEffect, useState } from "react";
+// import { getLevel, getPlayerChoice, reset } from "@/libs/utils";
 import PageWrapper from "@/components/page-wrapper";
 import PlayerSymbolSelector from "@/components/player-symbol-selector";
 import DifficultySelector from "@/components/difficulty-selector";
