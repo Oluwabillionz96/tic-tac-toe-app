@@ -8,7 +8,14 @@ import Button from "./button";
 import { router } from "expo-router";
 import useGameContext from "@/hooks/use-game-context";
 import { useEffect, useState } from "react";
-import { playWin, playLose, stopWin, stopLose } from "@/libs/sound";
+import {
+  playWin,
+  playLose,
+  stopWin,
+  stopLose,
+  playDraw,
+  stopDraw,
+} from "@/libs/sound";
 
 const WinModal = ({ reset }: { reset: () => void }) => {
   const {
@@ -25,6 +32,8 @@ const WinModal = ({ reset }: { reset: () => void }) => {
   const stopResult = () => {
     if (playerWins) {
       stopWin();
+    } else if (draw) {
+      stopDraw();
     } else {
       stopLose();
     }
@@ -35,6 +44,8 @@ const WinModal = ({ reset }: { reset: () => void }) => {
     if ((winValues && winValues?.length > 0) || draw) {
       if (playerWins) {
         playWin();
+      } else if (draw) {
+        playDraw();
       } else {
         playLose();
       }

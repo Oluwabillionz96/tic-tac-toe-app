@@ -7,6 +7,8 @@ const SOURCES = {
   win: require("@/assets/sounds/win.wav"),
   lose: require("@/assets/sounds/lose.wav"),
   notification: require("@/assets/sounds/notification.wav"),
+  draw: require("@/assets/sounds/draw.wav"),
+  soundtrack: require("@/assets/sounds/soundtrack.wav"),
 } as const;
 
 type SoundName = keyof typeof SOURCES;
@@ -42,11 +44,14 @@ export const playTap = () => replay("tap");
 export const playWin = () => replay("win");
 export const playLose = () => replay("lose");
 export const playNotification = () => replay("notification");
+export const playSoundtrack = () => replay("soundtrack");
+export const playDraw = () => replay("draw");
 
 export const stopTap = () => halt("tap");
 export const stopWin = () => halt("win");
 export const stopLose = () => halt("lose");
 export const stopNotification = () => halt("notification");
+export const stopDraw = () => halt("draw");
 
 export function releaseAll() {
   (Object.keys(players) as SoundName[]).forEach((name) =>

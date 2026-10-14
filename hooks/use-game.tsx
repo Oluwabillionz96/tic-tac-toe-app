@@ -4,8 +4,6 @@ import { getScores, updateScores } from "@/libs/scores";
 import { GameLevel, GameStatus, ScoresValues } from "@/libs/types";
 import { checkWin, getPlayerChoice } from "@/libs/utils";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import usePlayer from "./use-player";
-const tapSound = require("@/assets/sounds/tap.wav");
 
 const useGame = (
   isPlayerX: boolean | "random",
@@ -24,7 +22,6 @@ const useGame = (
     draw: 0,
     computer: 0,
   });
-  const player = usePlayer(tapSound);
 
   useEffect(() => {
     let isMounted = true;
@@ -50,7 +47,6 @@ const useGame = (
           setBoard,
           isPlayerX,
           gameLevel,
-          player,
         );
       }, 1000);
     }
@@ -60,7 +56,7 @@ const useGame = (
         clearTimeout(timeoutId);
       }
     };
-  }, [isPlayersTurn, board, isPlayerX, gameStatus, player, gameLevel]);
+  }, [isPlayersTurn, board, isPlayerX, gameStatus, gameLevel]);
 
   useEffect(() => {
     let isMounted = true;
