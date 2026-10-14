@@ -6,6 +6,7 @@ import useGameContext from "@/hooks/use-game-context";
 import { saveLocalData, updatePlayerChoice } from "@/libs/utils";
 import { usePathname } from "expo-router";
 import { useEffect } from "react";
+import useAppContext from "@/hooks/use-app-context";
 
 const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
   const {
@@ -13,10 +14,9 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
     stateSetter: { setIsPlayerX, setIsPlayersTurn, setGameStatus },
   } = useGameContext();
 
-  // const [status, setStatus] = useState(gameStatus);
-  // if (gameStatus !== "ongoing") {
-  //   setStatus(gameStatus);
-  // }
+  const {
+    state: { hasSoundEffect },
+  } = useAppContext();
 
   const displayStatus = gameStatus;
   const pathname = usePathname();
@@ -27,7 +27,7 @@ const PlayerChoiceModal = ({ children }: { children?: React.ReactNode }) => {
       return;
     }
 
-    updatePlayerChoice(setIsPlayerX);
+    updatePlayerChoice(setIsPlayerX, hasSoundEffect);
     setIsPlayersTurn(isPlayerX === true);
     saveLocalData("level", JSON.stringify(gameLevel));
     setGameStatus("ongoing");

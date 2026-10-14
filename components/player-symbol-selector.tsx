@@ -30,7 +30,7 @@ function SymbolIcon({ symbol, color }: { symbol: string; color: string }) {
 
 export default function PlayerSymbolSelector() {
   const {
-    state: { isPlayerX: playerChoice, gameStatus },
+    state: { isPlayerX: playerChoice, gameStatus, hasSoundEffect },
     stateSetters: { setIsPlayerX },
   } = useAppContext();
   const selectedSymbol =
@@ -54,6 +54,7 @@ export default function PlayerSymbolSelector() {
               onPress={() => {
                 updatePlayerChoice(
                   setIsPlayerX,
+                  hasSoundEffect,
                   symbol === "X" ? true : symbol === "O" ? false : "random",
                   gameStatus === "paused",
                 );

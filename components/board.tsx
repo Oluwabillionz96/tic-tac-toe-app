@@ -1,3 +1,4 @@
+import useAppContext from "@/hooks/use-app-context";
 import Square from "./square";
 import useGameContext from "@/hooks/use-game-context";
 import { playTap } from "@/libs/sound";
@@ -8,6 +9,10 @@ const Board = () => {
     state: { gameStatus, board, isPlayersTurn, isPlayerX },
     stateSetter: { setBoard, setIsPlayersTurn },
   } = useGameContext();
+
+  const {
+    state: { hasSoundEffect },
+  } = useAppContext();
 
   return (
     <FlatList
@@ -31,7 +36,10 @@ const Board = () => {
                 const newBoard = [...board];
                 newBoard[index] = isPlayerX === true ? "X" : "O";
                 setBoard(newBoard);
-                playTap();
+                (() => {
+                  if (!hasSoundEffect) return;
+                  playTap();
+                })();
                 setIsPlayersTurn(!isPlayersTurn);
               }
             }

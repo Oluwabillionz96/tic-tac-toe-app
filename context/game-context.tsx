@@ -7,7 +7,7 @@ const GameContext = createContext<ReturnType<typeof useGame> | null>(null);
 const GameProvider = ({ children }: { children: ReactNode }) => {
   const {
     stateSetters: { setIsPlayerX, setGameStatus, setGameLevel },
-    state: { isPlayerX, gameStatus, gameLevel },
+    state: { isPlayerX, gameStatus, gameLevel, hasSoundEffect },
   } = useAppContext();
   const game = useGame(
     isPlayerX,
@@ -16,6 +16,7 @@ const GameProvider = ({ children }: { children: ReactNode }) => {
     setGameStatus,
     gameLevel,
     setGameLevel,
+    hasSoundEffect
   );
   return <GameContext.Provider value={game}>{children}</GameContext.Provider>;
 };

@@ -3,11 +3,16 @@
 import PageWrapper from "@/components/page-wrapper";
 import PlayerSymbolSelector from "@/components/player-symbol-selector";
 import DifficultySelector from "@/components/difficulty-selector";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Switch, Text, View } from "react-native";
 import Button from "@/components/button";
-import { Entypo, Feather, FontAwesome } from "@expo/vector-icons";
+import { Entypo, Feather } from "@expo/vector-icons";
+import useAppContext from "@/hooks/use-app-context";
 
 const SettingsScreen = () => {
+  const {
+    state: { hasSoundEffect },
+    stateSetters: { setHasSoundEffect },
+  } = useAppContext();
   return (
     <PageWrapper>
       <View style={styles.section}>
@@ -50,7 +55,7 @@ const SettingsScreen = () => {
             gap: 4,
           }}
         >
-          <View
+          {/* <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
@@ -75,7 +80,7 @@ const SettingsScreen = () => {
             <TouchableOpacity>
               <Text>Button</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <View
             style={{
               flexDirection: "row",
@@ -98,9 +103,8 @@ const SettingsScreen = () => {
                 Sound Effects
               </Text>
             </View>
-            <TouchableOpacity>
-              <Text>Button</Text>
-            </TouchableOpacity>
+
+            <Switch value={hasSoundEffect} onValueChange={setHasSoundEffect} />
           </View>
         </View>
       </View>

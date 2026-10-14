@@ -14,11 +14,13 @@ const AppContext = createContext<{
     isPlayerX: boolean | "random";
     gameStatus: GameStatus;
     gameLevel: GameLevel;
+    hasSoundEffect: boolean;
   };
   stateSetters: {
     setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>;
     setGameStatus: Dispatch<SetStateAction<GameStatus>>;
     setGameLevel: Dispatch<SetStateAction<GameLevel>>;
+    setHasSoundEffect: Dispatch<SetStateAction<boolean>>;
   };
 } | null>(null);
 
@@ -26,6 +28,7 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isPlayerX, setIsPlayerX] = useState<boolean | "random">("random");
   const [gameStatus, setGameStatus] = useState<GameStatus>("none");
   const [gameLevel, setGameLevel] = useState<GameLevel>("medium");
+  const [hasSoundEffect, setHasSoundEffect] = useState(true);
 
   useEffect(() => {
     getPlayerChoice(setIsPlayerX);
@@ -35,8 +38,13 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
   return (
     <AppContext.Provider
       value={{
-        state: { isPlayerX, gameStatus, gameLevel },
-        stateSetters: { setIsPlayerX, setGameStatus, setGameLevel },
+        state: { isPlayerX, gameStatus, gameLevel, hasSoundEffect },
+        stateSetters: {
+          setIsPlayerX,
+          setGameStatus,
+          setGameLevel,
+          setHasSoundEffect,
+        },
       }}
     >
       {children}

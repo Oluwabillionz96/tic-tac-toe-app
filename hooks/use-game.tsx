@@ -12,6 +12,7 @@ const useGame = (
   setGameStatus: Dispatch<SetStateAction<GameStatus>>,
   gameLevel: GameLevel,
   setGameLevel: Dispatch<SetStateAction<GameLevel>>,
+  hasSoundEffect: boolean
 ) => {
   const [board, setBoard] = useState<("X" | "O" | null)[]>(Array(9).fill(null));
   const [isPlayersTurn, setIsPlayersTurn] = useState(isPlayerX === true);
@@ -47,6 +48,7 @@ const useGame = (
           setBoard,
           isPlayerX,
           gameLevel,
+          hasSoundEffect
         );
       }, 1000);
     }
@@ -56,7 +58,7 @@ const useGame = (
         clearTimeout(timeoutId);
       }
     };
-  }, [isPlayersTurn, board, isPlayerX, gameStatus, gameLevel]);
+  }, [isPlayersTurn, board, isPlayerX, gameStatus, gameLevel, hasSoundEffect]);
 
   useEffect(() => {
     let isMounted = true;

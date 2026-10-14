@@ -16,6 +16,7 @@ import {
   playDraw,
   stopDraw,
 } from "@/libs/sound";
+import useAppContext from "@/hooks/use-app-context";
 
 const WinModal = ({ reset }: { reset: () => void }) => {
   const {
@@ -23,6 +24,9 @@ const WinModal = ({ reset }: { reset: () => void }) => {
     stateSetter: { setGameStatus },
     draw,
   } = useGameContext();
+  const {
+    state: { hasSoundEffect },
+  } = useAppContext();
 
   const winner = winValues && board[winValues[0]];
   const playerValue = isPlayerX ? "X" : "O";
@@ -42,20 +46,23 @@ const WinModal = ({ reset }: { reset: () => void }) => {
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if ((winValues && winValues?.length > 0) || draw) {
-      if (playerWins) {
-        playWin();
-      } else if (draw) {
-        playDraw();
-      } else {
-        playLose();
-      }
+      (() => {
+        if (!hasSoundEffect) return;
+        if (playerWins) {
+          playWin();
+        } else if (draw) {
+          playDraw();
+        } else {
+          playLose();
+        }
+      })();
       timer = setTimeout(() => {
         setShowModal(true);
       }, 1500);
     }
 
     return () => clearTimeout(timer);
-  }, [draw, winValues, playerWins]);
+  }, [draw, winValues, playerWins, hasSoundEffect]);
 
   return (
     <Modal

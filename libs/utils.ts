@@ -25,19 +25,22 @@ export function toast(message: string) {
   });
 }
 
-export function notify(message: string) {
+export function notify(message: string, hasSoundEffect: boolean) {
   toast(message);
-  playNotification();
+  if (hasSoundEffect) {
+    playNotification();
+  }
 }
 
 export const updatePlayerChoice = (
   setIsPlayerX: Dispatch<SetStateAction<boolean | "random">>,
+  hasSoundEffect: boolean,
   newValue?: boolean | "random",
   isActiveGame?: boolean,
 ) => {
   if (newValue !== undefined) {
     if (isActiveGame) {
-      notify("Finish the ongoing game first to change symbol");
+      notify("Finish the ongoing game first to change symbol", hasSoundEffect);
       return;
     }
     setIsPlayerX(newValue);

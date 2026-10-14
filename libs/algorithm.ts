@@ -52,6 +52,7 @@ export const otherPlayerAlgorithm = (
   setBoard: Dispatch<SetStateAction<("X" | "O" | null)[]>>,
   isPlayerX: boolean | "random",
   level: GameLevel,
+  hasSoundEffect: boolean,
 ) => {
   if (isPlayerTurn) return;
 
@@ -60,6 +61,9 @@ export const otherPlayerAlgorithm = (
   const newBoard = [...board];
   newBoard[nextMoveIndex] = isPlayerX === true ? "O" : "X";
   setBoard(newBoard);
-  playTap();
+  (() => {
+    if (!hasSoundEffect) return;
+    playTap();
+  })();
   setTurn(true);
 };
