@@ -32,21 +32,6 @@ const AppProvider = ({ children }: { children: ReactNode }) => {
     getLevel(setGameLevel);
   }, []);
 
-  // useEffect(() => {
-  //   if (!player) return;
-
-  //   player.loop = true;
-  //   player.play();
-  // }, [player]);
-
-  // useEffect(() => {
-  //   if (!player) return;
-  //   if (gameStatus === "ended") {
-  //     player.pause();
-  //     player.seekTo(0);
-  //   }
-  // }, [gameStatus, player]);
-
   return (
     <AppContext.Provider
       value={{

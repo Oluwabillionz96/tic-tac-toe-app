@@ -44,7 +44,6 @@ export const playTap = () => replay("tap");
 export const playWin = () => replay("win");
 export const playLose = () => replay("lose");
 export const playNotification = () => replay("notification");
-export const playSoundtrack = () => replay("soundtrack");
 export const playDraw = () => replay("draw");
 
 export const stopTap = () => halt("tap");
