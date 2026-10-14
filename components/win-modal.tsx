@@ -7,10 +7,8 @@ import {
 import Button from "./button";
 import { router } from "expo-router";
 import useGameContext from "@/hooks/use-game-context";
-import { useCallback, useEffect, useState } from "react";
-// import { cutSound, playSound } from "@/libs/sound";
-// import { Audio } from "expo-av";
-import { useAudioPlayer } from "expo-audio";
+import { useEffect, useState } from "react";
+import { playWin, playLose, stopWin, stopLose } from "@/libs/sound";
 
 const WinModal = ({ reset }: { reset: () => void }) => {
   const {
@@ -23,32 +21,30 @@ const WinModal = ({ reset }: { reset: () => void }) => {
   const playerValue = isPlayerX ? "X" : "O";
   const playerWins = winner === playerValue;
   const [showModal, setShowModal] = useState(false);
-  // const [modalSound, setModalSound] = useState<Audio.Sound | null>(null);
-  const getSound = useCallback(() => {
-    let soundpath;
-    if (playerWins) {
-      soundpath = require("@/assets/sounds/win.wav");
-    } else {
-      soundpath = require("@/assets/sounds/lose.wav");
-    }
-    return soundpath;
-  }, [playerWins]);
 
-  const player = useAudioPlayer(getSound());
+  const stopResult = () => {
+    if (playerWins) {
+      stopWin();
+    } else {
+      stopLose();
+    }
+  };
 
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if ((winValues && winValues?.length > 0) || draw) {
-      // const soundPath = getSound();
-      // setModalSound(sound);
-      player.play();
+      if (playerWins) {
+        playWin();
+      } else {
+        playLose();
+      }
       timer = setTimeout(() => {
         setShowModal(true);
-      }, 3000);
+      }, 1500);
     }
 
     return () => clearTimeout(timer);
-  }, [draw, winValues, getSound, player]);
+  }, [draw, winValues, playerWins]);
 
   return (
     <Modal
@@ -124,9 +120,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
           <Button
             handlePress={() => {
               reset();
-              // if (modalSound) {
-              //   cutSound(modalSound).finally(() => setModalSound(null));
-              // }
+              stopResult();
             }}
           >
             <Text style={{ fontSize: 24, textAlign: "center", color: "white" }}>
@@ -136,6 +130,7 @@ const WinModal = ({ reset }: { reset: () => void }) => {
           <Button
             handlePress={() => {
               reset();
+              stopResult();
               setGameStatus("none");
               router.push("/");
             }}

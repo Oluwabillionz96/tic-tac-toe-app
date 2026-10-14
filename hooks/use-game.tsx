@@ -3,7 +3,6 @@ import { updateGames } from "@/libs/games";
 import { getScores, updateScores } from "@/libs/scores";
 import { GameLevel, GameStatus, ScoresValues } from "@/libs/types";
 import { checkWin, getPlayerChoice } from "@/libs/utils";
-import { useAudioPlayer } from "expo-audio";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const useGame = (
@@ -23,7 +22,6 @@ const useGame = (
     draw: 0,
     computer: 0,
   });
-  const player = useAudioPlayer(require("@/assets/sounds/tap.wav"));
 
   useEffect(() => {
     let isMounted = true;
@@ -49,10 +47,6 @@ const useGame = (
           setBoard,
           isPlayerX,
           gameLevel,
-          () => {
-            player.seekTo(0);
-            player.play();
-          },
         );
       }, 1000);
     }
@@ -62,7 +56,7 @@ const useGame = (
         clearTimeout(timeoutId);
       }
     };
-  }, [isPlayersTurn, board, isPlayerX, gameStatus, gameLevel, player]);
+  }, [isPlayersTurn, board, isPlayerX, gameStatus, gameLevel]);
 
   useEffect(() => {
     let isMounted = true;
