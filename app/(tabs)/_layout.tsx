@@ -6,7 +6,6 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
 const TabLayout = () => {
   return (
-    // <AppProvider>
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: "#4648D4",
@@ -66,7 +65,6 @@ const TabLayout = () => {
         }}
       />
     </Tabs>
-    // </AppProvider>
   );
 };
 
