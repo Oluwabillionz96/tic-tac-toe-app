@@ -8,7 +8,6 @@ const SOURCES = {
   lose: require("@/assets/sounds/lose.wav"),
   notification: require("@/assets/sounds/notification.wav"),
   draw: require("@/assets/sounds/draw.wav"),
-  soundtrack: require("@/assets/sounds/soundtrack.wav"),
 } as const;
 
 type SoundName = keyof typeof SOURCES;
